@@ -1,75 +1,51 @@
 <!doctype html>
-<html lang="zh-CN"><head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="theme-color" content="#0f3836"/>
-<title>PC Studio｜循证营销智能体</title>
-<link rel="stylesheet" href="/public/style.css"/>
-</head><body>
-<div class="app">
-  <aside class="sidebar">
-    <div class="brand"><div class="logo">PC<span>✦</span></div><div><strong>PC Studio</strong><small>循证营销智能体 · Contest Edition</small></div></div>
-    <div class="divider"></div>
-    <div class="side-group-label">工作空间</div>
-    <div class="side-entry current">◈ <span>智能内容工作台</span></div>
-    <div class="side-entry">◇ <span>证据与素材链</span></div>
-    <div class="side-entry">◎ <span>合规核验</span></div>
-    <div class="side-entry">⇄ <span>跨场景对比</span></div>
-    <div class="sidebar-bottom">
-      <div class="source-box"><div class="source-title">数据来源</div><div id="source-badge" class="status-pill warning">本地演示</div>
-      <p id="source-detail">演示资料可追溯，但不等于赛事指定 ima 知识库。</p><button id="check-ima" class="ghost compact">检测 ima 连接 ↗</button></div>
-      <div class="sidebar-footer">独立参赛项目 · 非华为官方产品<br/>凭证仅从服务端环境变量读取</div>
-    </div>
-  </aside>
-  <main class="main">
-    <header class="topbar"><div class="breadcrumb">工作空间 <span> / </span> 智能内容工作台</div><div class="header-right"><span class="mini-dot"></span><span id="server-status">连接服务中</span><span class="version">v1.0</span></div></header>
-    <div class="content">
-      <div class="hero">
-        <div class="hero-eyebrow">EVIDENCE-FIRST AGENT <span class="line"></span> AI × PC MARKETING</div>
-        <h1>让每一条卖点，<br/><em>都有据可循。</em></h1>
-        <p>不是套模板的软文生成器，而是从用户需求出发，完成场景判断、产品检索、图文编排与合规检查的营销工作流。</p>
-        <div class="hero-kpis"><div><strong>8</strong><span>场景策略</span></div><div><strong>4</strong><span>发布渠道</span></div><div><strong>4</strong><span>复核环节</span></div></div>
-        <div class="hero-watermark">P</div>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#164f41">
+  <title>PC Studio · 营销内容工作台</title>
+  <link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#task-form">跳到写稿需求</a>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="PC Studio 首页"><span class="brand-mark" aria-hidden="true">pc<span>✳</span></span><span><strong>PC Studio</strong><span class="brand-caption">营销内容工作台</span></span></a>
+    <div class="header-actions"><span id="source-badge" class="source-badge">正在连接</span><button id="open-settings" class="button quiet" type="button"><span aria-hidden="true">⚙</span> 设置</button></div>
+  </header>
+  <main class="workspace">
+    <section class="requirements panel" aria-labelledby="requirements-title">
+      <div class="section-heading"><span class="step-label">从一个需求开始</span><h1 id="requirements-title">今天，写点什么？</h1><p>选好产品和发布位置，把想法交给我们。</p></div>
+      <div class="preset-group" aria-label="常用需求"><span class="field-label">常用需求</span><div class="chips"><button type="button" class="chip" data-preset="student">开学选电脑</button><button type="button" class="chip" data-preset="office">差旅办公</button><button type="button" class="chip" data-preset="creator">内容创作</button></div></div>
+      <form id="task-form" novalidate>
+        <div class="field"><label for="product">产品型号 <span class="required">必选</span></label><input id="product" name="product" list="model-list" placeholder="搜索或选择完整型号" autocomplete="off" aria-describedby="product-hint product-error"><datalist id="model-list"></datalist><small id="product-hint">请区分鸿蒙版、酷睿版等不同版本。</small><p id="product-error" class="field-error" hidden></p></div>
+        <div class="field"><label for="platform">发布位置</label><select id="platform" name="platform" aria-label="发布位置"><option value="小红书">小红书</option><option value="公众号">公众号</option><option value="门店朋友圈">朋友圈</option><option value="门店海报">门店海报</option></select><small id="platform-hint">短段落，配图清单，方便收藏。</small></div>
+        <div class="field"><label for="audience">给谁看 <span class="required">必填</span></label><input id="audience" name="audience" placeholder="例如：准备入学的大学新生" aria-describedby="audience-error"><p id="audience-error" class="field-error" hidden></p><div class="chips audience-chips" aria-label="快捷选择人群"><button type="button" class="chip" data-audience="大学新生">学生</button><button type="button" class="chip" data-audience="职场办公人群">办公人群</button><button type="button" class="chip" data-audience="摄影与设计创作者">创作者</button></div></div>
+        <div class="field"><label for="instructions">想怎么写 <span class="optional">选填</span></label><textarea id="instructions" name="instructions" rows="3" placeholder="比如：轻松一点，重点说说日常携带，结尾邀请到店看看。"></textarea></div>
+        <details id="more-requirements" class="more-requirements"><summary><span>更多要求<small id="requirements-summary">职场办公 · 了解阶段 · 到店体验</small></span><span class="details-arrow" aria-hidden="true">⌄</span></summary><div class="details-body"><div class="field"><label for="scene">使用场景</label><select id="scene" name="scene"><option>职场办公</option></select></div><div class="field"><label for="stage">购买阶段</label><select id="stage" name="stage"><option>了解阶段</option><option>比较阶段</option><option>临门决策</option><option>已购使用</option></select></div><div class="field"><label for="objective">希望读者做什么</label><select id="objective" name="objective"><option value="引导到店体验">到店体验</option><option value="引导咨询">主动咨询</option><option value="鼓励收藏分享">收藏分享</option><option value="辅助比较">辅助比较</option></select></div></div></details>
+        <p id="form-error" class="field-error" role="alert" hidden></p>
+        <button id="generate" class="button primary generate-button" type="submit"><span aria-hidden="true">✳</span><span id="generate-label">生成文案</span><span aria-hidden="true">→</span></button>
+        <p class="form-footnote">产品信息来自所选资料，发布前请确认时效。</p>
+      </form>
+    </section>
+
+    <section class="draft-panel panel" aria-label="文案预览">
+      <div class="draft-header"><div id="version-control" class="version-control" hidden><label for="version-select" class="sr-only">查看历史版本</label><select id="version-select"></select></div><span id="draft-state" class="draft-state">等待你的想法</span></div>
+      <div id="result-notice" class="notice" tabindex="-1" hidden></div>
+      <div id="working-state" class="working-state" role="status" hidden><span class="spinner" aria-hidden="true"></span><div><strong>正在为你写稿</strong><p>整理产品资料、组织内容并检查配图，请稍候。</p></div></div>
+      <div id="empty-state" class="empty-state"><div class="paper-preview" aria-hidden="true"><span class="paper-label">YOUR NEXT STORY</span><div class="paper-title">把产品亮点，<br>写进用户的日常。</div><div class="paper-image"><svg viewBox="0 0 180 100" fill="none"><path d="M47 19h86v57H47z" stroke="currentColor" stroke-width="2"/><path d="M38 82h104l-9-6H47l-9 6Z" stroke="currentColor" stroke-width="2"/><path d="m68 58 17-18 13 12 15-16" stroke="currentColor" stroke-width="2"/><circle cx="121" cy="27" r="13" fill="var(--paper)"/><path d="M121 19v16m-8-8h16m-14-6 12 12m-12 0 12-12" stroke="currentColor" stroke-width="1.5"/></svg></div><span class="paper-line"></span><span class="paper-line short"></span><span class="paper-stamp">灵感，在这里成稿</span></div><h3>第一篇好文案，从这里开始</h3><p>在左侧填写需求，或选一个常用需求。<br>成稿后，可以继续改、换个平台，再复制使用。</p><div class="empty-features"><span>图文一起看</span><span>一句话改稿</span><span>保留最近版本</span></div></div>
+      <div id="draft-content" hidden>
+        <div class="draft-toolbar"><div class="draft-meta"><span id="article-platform" class="platform-tag"></span><span id="article-source"></span></div><div class="toolbar-actions"><button id="copy" type="button" class="button primary small">复制文案</button><button id="export-markdown" type="button" class="button secondary small">导出</button></div></div>
+        <article id="article" class="article" aria-label="成稿预览" tabindex="-1"></article>
+        <section class="revision-panel" aria-labelledby="revision-title"><div class="revision-heading"><h3 id="revision-title">再改一改，让它更合心意</h3><span>每次修改都会保留一个版本</span></div><div class="chips"><button type="button" class="chip" data-revision="短一点">短一点</button><button type="button" class="chip" data-revision="换个标题">换个标题</button><button type="button" class="chip" data-revision="更口语化">更口语化</button><button type="button" class="chip" data-revision="突出便携">突出便携</button></div><form id="revision-form"><label class="sr-only" for="revision-input">一句话修改要求</label><input id="revision-input" placeholder="例如：删掉第二个卖点，结尾更自然" maxlength="1000"><button id="revise" class="button secondary" type="submit">修改</button></form><p id="revision-error" class="field-error" hidden></p><p class="revision-note">想换个平台？在左侧选择新的发布位置，再点「生成文案」。</p></section>
+        <details id="sources" class="source-details"><summary>查看资料来源 <span id="source-count"></span><span class="details-arrow" aria-hidden="true">⌄</span></summary><div id="source-content" class="source-content"></div></details>
       </div>
-      <section class="workspace-grid">
-        <div class="panel task-panel">
-          <div class="panel-heading"><div><span class="eyebrow">01 / DEFINE</span><h2>定义营销任务</h2></div><span class="tiny-tag">必填字段</span></div>
-          <div class="field"><label for="mode">证据来源</label><select id="mode"><option value="local">本地知识库 · 开发演示</option><option value="live">ima 官方接口 · 赛事模式</option></select><small>赛事模式只接受真实 ima 调用，不会悄悄切换到本地数据。</small></div>
-          <div class="field"><label for="product">产品型号 <b>*</b></label><input id="product" list="model-list" placeholder="输入或选择完整型号"/><datalist id="model-list"></datalist></div>
-          <div class="two-col">
-            <div class="field"><label for="audience">目标人群 <b>*</b></label><input id="audience" placeholder="如：大一新生"/></div>
-            <div class="field"><label for="stage">购买阶段 <b>*</b></label><select id="stage"><option value="了解阶段">了解阶段</option><option value="比较阶段">比较阶段</option><option value="临门决策">临门决策</option><option value="已购使用">已购使用</option></select></div>
-          </div>
-          <div class="two-col">
-            <div class="field"><label for="scene">业务场景 <b>*</b></label><select id="scene"></select></div>
-            <div class="field"><label for="platform">发布平台 <b>*</b></label><select id="platform"></select></div>
-          </div>
-          <div class="field"><label for="objective">内容目标 <b>*</b></label><input id="objective" value="帮助用户理清选机需求并引导到店体验"/></div>
-          <div class="field"><label for="instructions">补充要求 / 模拟干扰</label><textarea id="instructions" rows="3" placeholder="例如：侧重轻薄便携；或者故意要求添加没有依据的促销价，以测试风控。"></textarea></div>
-          <button id="generate" class="primary"><span>✦</span> 开始循证生成 <span>→</span></button>
-          <div class="presets"><span>快速演示：</span><button class="preset" data-preset="student">开学季</button><button class="preset" data-preset="office">差旅办公</button><button class="preset" data-preset="creator">内容创作</button><button class="preset" data-preset="risk">合规干扰</button></div>
-        </div>
-        <div class="results">
-          <div class="output-tabs"><button class="tab active" data-tab="article">图文作品</button><button class="tab" data-tab="evidence">证据与配图</button><button class="tab" data-tab="trace">决策轨迹</button><button class="tab" data-tab="compare">对比测试</button></div>
-          <section id="output" class="panel output-panel">
-            <div id="empty-state" class="empty">
-              <div class="empty-orbit"><span>✦</span><i></i></div>
-              <h2>让想法落地，让事实说话。</h2>
-              <p>左侧选择一个产品和营销场景，开始生成可核验的图文内容。</p>
-              <div class="flow-dots"><span>场景解析</span><b>→</b><span>资料检索</span><b>→</b><span>图文编排</span><b>→</b><span>安全核验</span></div>
-            </div>
-            <div id="output-content" hidden></div>
-          </section>
-          <section class="panel bottom-panel"><div class="bottom-head"><div><span class="eyebrow">QUALITY GATES</span><h3>交付前检查</h3></div><span id="audit-overall" class="tiny-tag">等待任务</span></div>
-            <div class="checks"><div id="fact-check" class="check"><span>◇</span><div>事实引用<small>可回溯事实条目</small></div><b>—</b></div>
-            <div id="image-check" class="check"><span>▧</span><div>图片型号<small>型号及来源匹配</small></div><b>—</b></div>
-            <div id="compliance-check" class="check"><span>◈</span><div>营销合规<small>绝对化及误导表述</small></div><b>—</b></div></div>
-          </section>
-        </div>
-      </section>
-      <footer class="page-footer">PC Studio · 可解释、可复核、可导出 <span>© 2026 参赛项目原型</span></footer>
-    </div>
+    </section>
   </main>
-</div>
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
-<script src="/public/app.js"></script>
-</body></html>
+  <footer class="page-footer"><span>为门店与内容运营的每一次表达</span><span>PC Studio · 独立项目，非华为官方产品</span></footer>
+  <dialog id="settings-dialog" aria-labelledby="settings-title"><div class="dialog-header"><div><span class="step-label">工作台设置</span><h2 id="settings-title">资料与服务</h2></div><button id="close-settings" class="button icon-button" type="button" aria-label="关闭设置">×</button></div><div class="field"><label for="mode">写稿资料来源</label><select id="mode"><option value="local">本地资料</option><option value="live">ima 在线资料</option></select><small>仅影响接下来的生成。已保存版本保留原来的资料来源。</small></div><p id="source-detail" class="settings-description">正在连接服务。</p><button id="check-ima" class="button secondary" type="button">检查 ima 连接</button><p id="connection-result" class="settings-description" role="status"></p><details class="diagnostics"><summary>运行详情</summary><p id="server-status"></p><p>本地与在线资料独立使用。在线服务失败时，可在此手动选择本地资料。</p><button id="export-audit" class="button secondary" type="button" disabled>下载当前作品的核验记录 JSON</button><pre id="diagnostic-output"></pre></details></dialog>
+  <div id="announcement" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="/public/app.js"></script>
+</body>
+</html>

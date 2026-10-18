@@ -88,8 +88,9 @@ test('generate and compare APIs preserve follow-up validation',async()=>{
   })).json();
   const result=await post('/api/generate');
   assert.equal(result.ok,false);
+  assert.equal(result.status,'need_info');
   assert.equal(result.needsInput,true);
-  assert.ok(result.questions.length>=4);
+  for(const field of ['产品','人群','发布位置'])assert.ok(result.questions.some(question=>question.includes(field)),field);
   const comparison=await post('/api/compare');
   assert.equal(comparison.ok,false);
   assert.equal(comparison.first.needsInput,true);

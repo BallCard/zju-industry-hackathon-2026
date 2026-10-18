@@ -28,7 +28,13 @@ async function body(req){
     size+=chunk.length;if(size>256000)throw Error('请求内容过大');
     chunks.push(chunk);
   }
-  return JSON.parse(Buffer.concat(chunks).toString('utf8')||'{}');
+  let value;
+  try {value=JSON.parse(Buffer.concat(chunks).toString('utf8')||'{}');}
+  catch {const error=Error('请求格式不正确，请重新提交');error.httpStatus=400;throw error;}
+  if(!value||typeof value!=='object'||Array.isArray(value)){
+    const error=Error('请提交一个包含写作需求的对象');error.httpStatus=400;throw error;
+  }
+  return value;
 }
 function file(res,filename){
   const ext=path.extname(filename).toLowerCase();
@@ -41,14 +47,15 @@ function file(res,filename){
   });
 }
 function handler(req,res){
-  const u=new URL(req.url,'http://localhost');
   (async()=>{
+    const u=new URL(req.url,'http://localhost');
     if(req.method==='GET'&&u.pathname==='/api/health')return json(res,200,{
-      ok:true,version:'1.0.0',localKbAvailable:fs.existsSync(KB_ROOT),
+      ok:true,version:'1.1.0',localKbAvailable:fs.existsSync(KB_ROOT),
       localModelCount:safeCatalog().length,imaConfigured:credentialsPresent(),defaultMode:DEFAULT_DATA_MODE});
     if(req.method==='GET'&&u.pathname==='/api/options')return json(res,200,{
       models:safeCatalog(),scenes:Object.keys(SCENES),platforms:Object.keys(PLATFORMS),stages:STAGES,
       liveConfigured:credentialsPresent(),defaultMode:DEFAULT_DATA_MODE,
+      objectives:['引导到店体验','引导咨询','鼓励收藏分享','辅助比较'],
       sourcePolicy:'local用于研发，live仅使用指定ima共享知识库；互不伪装或自动混用'});
     if(req.method==='GET'&&u.pathname==='/api/ima-check')return json(res,200,await connectionStatus());
     if(req.method==='POST'&&u.pathname==='/api/generate')return json(res,200,await generateTask(await body(req)));
@@ -84,9 +91,18 @@ function handler(req,res){
       return file(res,candidate);
     }
     return json(res,404,{error:'未找到路由'});
-  })().catch(e=>json(res,e.message==='请求内容过大'?413:500,{
-    ok:false,error:process.env.NODE_ENV==='production'?'服务执行失败，请检查服务端日志':e.message}));
+  })().catch(e=>{
+    const code=e.httpStatus||(e.message==='请求内容过大'?413:500);
+    return json(res,code,{status:'blocked',ok:false,needsInput:false,
+      error:code<500?e.message:'服务暂时未能完成，请稍后重试',trace:[]});
+  });
 }
 const server=http.createServer(handler);
-if(require.main===module)server.listen(PORT,HOST,()=>console.log('PC Marketing Agent listening on http://'+HOST+':'+PORT));
+if(require.main===module){
+  server.on('error',error=>{
+    console.error(error.code==='EADDRINUSE'?'端口 '+PORT+' 已被占用，请停止旧服务或更换 PORT。':'服务启动失败：'+error.message);
+    process.exitCode=1;
+  });
+  server.listen(PORT,HOST,()=>console.log('PC Studio listening on http://'+HOST+':'+PORT));
+}
 module.exports={server};

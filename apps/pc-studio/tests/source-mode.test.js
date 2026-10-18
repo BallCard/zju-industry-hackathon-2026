@@ -1,8 +1,8 @@
 'use strict';
 const test=require('node:test');
 const assert=require('node:assert/strict');
-const {generateTask}=require('../src/agent');
-const {localEvidence}=require('../src/catalog');
+const {generateTask}=require('../backend/src/agent');
+const {localEvidence}=require('../backend/src/catalog');
 const base={product:'HUAWEI MateBook 14（鸿蒙版）',audience:'大学新生',
   stage:'比较阶段',scene:'开学季',platform:'小红书',
   objective:'给到店看机提供信息',instructions:'侧重轻薄与续航'};

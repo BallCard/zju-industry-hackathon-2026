@@ -10,7 +10,7 @@ function findCredentialFile() {
     if(parent===base)break;
     base=parent;
   }
-  return path.resolve(__dirname,'../ima_skill/ima.txt');
+  return path.resolve(__dirname,'../../ima_skill/ima.txt');
 }
 const DEFAULT=findCredentialFile();
 function clean(x){return String(x||'').trim().replace(/^["']/,'').replace(/["']$/,'').trim();}

@@ -3,7 +3,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const key=()=>process.env.LLM_API_KEY||process.env.OPENAI_API_KEY||'';
 const configured=()=>Boolean(key()&&process.env.LLM_MODEL);
-const SYSTEM=fs.readFileSync(path.join(__dirname,'../docs/SYSTEM_PROMPT.md'),'utf8');
+const SYSTEM=fs.readFileSync(path.join(__dirname,'../../docs/SYSTEM_PROMPT.md'),'utf8');
 function fencedJSON(s){
   const text=String(s||'').trim().replace(/^\x60+json\s*/i,'').replace(/\x60+$/,'');
   const first=text.indexOf('{'),last=text.lastIndexOf('}');

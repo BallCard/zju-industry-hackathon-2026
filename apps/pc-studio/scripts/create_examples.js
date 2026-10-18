@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs');
 const path=require('node:path');
-const {generateTask}=require('../src/agent');
+const {generateTask}=require('../backend/src/agent');
 const dest=path.join(__dirname,'../examples');
 const jobs=[
   {name:'01-开学季-小红书',product:'HUAWEI MateBook 14（鸿蒙版）',audience:'大一新生',scene:'开学季',stage:'了解阶段',platform:'小红书',objective:'理清学习与携带需求',instructions:'侧重轻薄与屏幕'},

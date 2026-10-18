@@ -13,7 +13,7 @@ function findLocalKb() {
     if (parent === base) break;
     base = parent;
   }
-  return path.resolve(__dirname, '../data/kb');
+  return path.resolve(__dirname, '../../data/kb');
 }
 const KB_ROOT = process.env.LOCAL_KB_ROOT || findLocalKb();
 const CATEGORIES = ['01-鸿蒙电脑', '02-MateBook-Windows'];
@@ -119,7 +119,7 @@ function listLocalModels() {
   return output;
 }
 const cached=listLocalModels();
-const manifest=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../data/models.json'),'utf8'));
+const manifest=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../../data/models.json'),'utf8'));
 const virtual=manifest.map((m,i)=>({id:'M'+String(i+1).padStart(2,'0'),...m,facts:[],pictures:[]}));
 const active=cached.length?cached:virtual;
 function safeCatalog() {return active.map(x=>({id:x.id,name:x.name,system:x.system,factCount:x.facts.length,imageCount:x.pictures.length}));}

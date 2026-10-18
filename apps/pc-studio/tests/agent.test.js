@@ -1,8 +1,8 @@
 'use strict';
 const test=require('node:test');
 const assert=require('node:assert/strict');
-const {safeCatalog,localEvidence}=require('../src/catalog');
-const {generateTask,preflight,detectRisks}=require('../src/agent');
+const {safeCatalog,localEvidence}=require('../backend/src/catalog');
+const {generateTask,preflight,detectRisks}=require('../backend/src/agent');
 const base={mode:'local',product:'HUAWEI MateBook 14（鸿蒙版）',audience:'大一新生',
   stage:'了解阶段',scene:'开学季',platform:'小红书',objective:'了解购机需求',instructions:''};
 const HAS_LOCAL_EVIDENCE=Boolean(localEvidence(base.product).facts);

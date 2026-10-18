@@ -23,6 +23,28 @@
 
 本地v7仅用于开发，作品和导出文件将明确标明“本地演示（非ima正式验收）”。等平台额度恢复后，只需手动切换至 live 模式即可；不会改写产品事实的来源标签，也不需要重新开发一套Agent。见 docs/本地开发与ima切换.md。
 
+## 目录结构
+
+```text
+apps/pc-studio/
+├─ frontend/            # 浏览器页面、交互脚本和样式
+│  ├─ index.html
+│  ├─ app.js
+│  └─ style.css
+├─ backend/
+│  ├─ server.js         # HTTP API 和前端静态资源入口
+│  └─ src/              # Agent、知识库、ima、凭证与模型调用
+├─ data/                # 型号清单；私有知识库不入 Git
+├─ docs/                # 系统提示词和作品文档
+├─ examples/            # 本地运行案例
+├─ scripts/             # 示例生成及验收脚本
+├─ tests/               # 单元测试与 HTTP 回归测试
+├─ package.json         # 统一启动与测试命令
+└─ Dockerfile
+```
+
+前后端按目录分离，仍由同一个 Node 服务同源运行，不新增框架或 npm 依赖。`frontend/` 只放可公开给浏览器的文件；凭证、知识库访问和模型调用只放在 `backend/`。现有 `/api/*` 接口及 `/public/app.js`、`/public/style.css` 资源 URL 保持不变，`/public/*` 实际映射到 `frontend/`，不暴露后端目录。
+
 ## 本地运行
 
 需 Node.js 20+，不依赖npm第三方包。双击 START_WINDOWS.cmd，或在 PowerShell 输入：
@@ -39,7 +61,7 @@
     npm run examples
     npm run smoke:local
 
-本地开发知识库默认读取同级目录「华为PC全板块深度知识库_v7」。换电脑时可使用 LOCAL_KB_ROOT 环境变量指定目录。
+本地开发知识库会沿代码所在目录向上查找 `data/kb/` 或「华为PC全板块深度知识库_v7」，兼容主目录与 Git worktree。换电脑时可使用 LOCAL_KB_ROOT 环境变量指定目录。`npm run smoke:local` 需要先启动服务并准备已授权的本地知识库；它只验证本地模式，不调用 ima。
 
 ## ima官方接口接入
 

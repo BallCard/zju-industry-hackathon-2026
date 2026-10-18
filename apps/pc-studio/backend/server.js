@@ -9,7 +9,8 @@ try{loadCredentials();}catch(e){console.error('ima凭证配置失败：'+e.messa
 const {generateTask,SCENES,PLATFORMS,STAGES}=require('./src/agent');
 const {safeCatalog,localImageById,KB_ROOT}=require('./src/catalog');
 const {credentialsPresent,connectionStatus,readVerifiedImage}=require('./src/ima');
-const PUBLIC=path.join(__dirname,'public');
+// Keep the existing /public/* URLs while serving only the frontend directory.
+const FRONTEND=path.join(__dirname,'../frontend');
 const HOST=process.env.HOST||'127.0.0.1';
 const PORT=Number(process.env.PORT||8765);
 // Local development remains the default even when ima credentials exist.
@@ -77,8 +78,8 @@ function handler(req,res){
     }
     if(req.method==='GET'&&(u.pathname==='/'||u.pathname.startsWith('/public/'))) {
       const rel=u.pathname==='/'?'index.html':decodeURIComponent(u.pathname.slice('/public/'.length));
-      const candidate=path.resolve(PUBLIC,rel);
-      if(candidate!==path.join(PUBLIC,'index.html')&&!candidate.startsWith(PUBLIC+path.sep))
+      const candidate=path.resolve(FRONTEND,rel);
+      if(candidate!==path.join(FRONTEND,'index.html')&&!candidate.startsWith(FRONTEND+path.sep))
         return json(res,403,{error:'拒绝访问'});
       return file(res,candidate);
     }

@@ -5,5 +5,5 @@ echo.
 echo PC Studio - Local address http://127.0.0.1:8765
 echo.
 start "" "http://127.0.0.1:8765"
-node server.js
+node backend\server.js
 if errorlevel 1 pause

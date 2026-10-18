@@ -55,7 +55,15 @@ function findLine(section, key) {
   return '';
 }
 function cleanValue(v) {
-  return String(v || '').replace(/\s+/g, ' ').trim().slice(0, 175);
+  return String(v || '').replace(/\s+/g, ' ').trim();
+}
+// Keep complete field variants and the notes immediately following them.
+function fieldValue(section, key, otherKeys) {
+  const lines = String(section || '').split(/\r?\n/).map(x => x.trim()).filter(Boolean);
+  const start = lines.findIndex(x => x === key || x === key + '：');
+  if (start < 0) return '';
+  const end = lines.findIndex((x, i) => i > start && otherKeys.includes(x.replace(/：$/, '')));
+  return lines.slice(start + 1, end < 0 ? undefined : end).join(' ');
 }
 function extractFacts(md, model, sourceUrl, relPath) {
   const s = sections(md); const result = [];
@@ -64,25 +72,26 @@ function extractFacts(md, model, sourceUrl, relPath) {
     if (!quote || quote.length < 3 || result.some(x => x.topic === topic && x.quote === quote)) return;
     result.push({ id:'F' + String(result.length + 1).padStart(2,'0'),
       topic, quote, model, sourceTitle:model + ' - 产品事实',
-      sourceUrl, sourcePath:relPath, sourceType:'local', supported:true });
+      sourceUrl, sourcePath:relPath, sourceType:'local', supported:true,
+      conditions:(md.match(/^>\s*来源：(.+)$/m)||[])[1]||'' });
   }
   const os = s['操作系统'];
-  if (os) add('操作系统', os.split(/\r?\n/).map(x=>x.trim()).find(x=>x && !x.startsWith('*')) || '');
+  if (os) add('操作系统', os);
   const screen = s['屏幕'];
-  add('屏幕尺寸', findLine(screen, '尺寸'));
-  add('屏幕类型', findLine(screen, '类型'));
-  add('屏幕分辨率', findLine(screen, '分辨率'));
-  add('机身重量', findLine(s['尺寸与重量'], '重量'));
+  const screenKeys = ['尺寸','类型','屏占比','屏幕比例','分辨率','刷新率','亮度','色域','色准','对比度','可视角度','触摸屏'];
+  add('屏幕尺寸', fieldValue(screen, '尺寸', screenKeys));
+  add('屏幕类型', fieldValue(screen, '类型', screenKeys));
+  add('屏幕分辨率', fieldValue(screen, '分辨率', screenKeys));
+  add('机身重量', fieldValue(s['尺寸与重量'], '重量', ['长度','宽度','厚度','重量']));
   const processor = s['处理器'];
   if (processor) {
     const lines=processor.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
-    add('处理器',lines.find(x => x !== 'CPU' && !x.startsWith('*')) || '');
+    add('处理器',lines.filter(x => x !== 'CPU').join(' '));
   }
-  add('内存', (s['内存']||'').split(/\r?\n/).find(x=>x.trim()&&!x.trim().startsWith('*')));
-  add('存储', (s['存储']||'').split(/\r?\n/).find(x=>x.trim()&&!x.trim().startsWith('*')));
-  add('电池容量', findLine(s['电池'],'容量'));
-  const ports = (s['接口'] || '').split(/\r?\n/).map(x=>x.trim()).filter(x=>x&&!x.startsWith('*'));
-  add('接口',ports[0] || '');
+  add('内存', s['内存']);
+  add('存储', s['存储']);
+  add('电池容量', fieldValue(s['电池'], '容量', ['材料','容量','额定容量']));
+  add('接口',(s['接口'] || '').trim());
   return result;
 }
 function listLocalModels() {
@@ -123,10 +132,19 @@ const manifest=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../../data/mod
 const virtual=manifest.map((m,i)=>({id:'M'+String(i+1).padStart(2,'0'),...m,facts:[],pictures:[]}));
 const active=cached.length?cached:virtual;
 function safeCatalog() {return active.map(x=>({id:x.id,name:x.name,system:x.system,factCount:x.facts.length,imageCount:x.pictures.length}));}
+const modelKey = value => String(value || '').toLowerCase().replace(/^huawei\s*/,'').replace(/[\s（）()·\-—_]/g,'');
 function resolveModel(query) {
-  const q=String(query||'').trim().toLowerCase();
+  const q=modelKey(query);
   if(!q)return null;
-  return active.find(x=>x.name.toLowerCase()===q)||active.find(x=>x.folder.toLowerCase()===q)||null;
+  // A folder may omit a version qualifier; it must never resolve an ambiguous model.
+  return active.find(x=>modelKey(x.name)===q)||null;
+}
+function modelCandidates(query) {
+  const q=modelKey(query);
+  if(!q)return [];
+  const exact=resolveModel(query);
+  if(exact)return [exact.name];
+  return active.filter(x=>modelKey(x.name).startsWith(q)||modelKey(x.folder)===q).map(x=>x.name);
 }
 function localEvidence(query) {
   const product=resolveModel(query);
@@ -139,4 +157,4 @@ function localImageById(model,id) {
   const product=resolveModel(model);
   return product?.pictures.find(p=>p.id===id)?.localPath||null;
 }
-module.exports={KB_ROOT,safeCatalog,resolveModel,localEvidence,localImageById,csvRows,extractFacts};
+module.exports={KB_ROOT,safeCatalog,resolveModel,localEvidence,localImageById,csvRows,extractFacts,modelCandidates};

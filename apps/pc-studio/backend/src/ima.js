@@ -92,7 +92,7 @@ async function getMediaBytes(mediaId,expected='text'){
 async function mediaText(id){return (await getMediaBytes(id,'text')).bytes.toString('utf8').replace(/^\uFEFF/,'');}
 function readIndex(csv,expectedModel){
   const rows=csvRows(csv);
-  return rows.filter(row=>(!row['产品型号']||row['产品型号']===expectedModel)&&row['文件名']&&imgRegex.test(row['文件名']))
+  return rows.filter(row=>row['产品型号']===expectedModel&&row['文件名']&&imgRegex.test(row['文件名']))
     .map(row=>({filename:row['文件名'],description:row['官网图片说明']||row['画面说明']||'华为PC产品图片',
       sourceUrl:row['来源页面']||row['商品页URL']||'',model:expectedModel,
       width:Number(row['宽度']||0),height:Number(row['高度']||0)}));

@@ -2,7 +2,7 @@
 id: T-DOCKER-REFERENCE
 title: Align root Dockerfile with user supplied reference
 owner: pcstudio
-status: doing
+status: done
 paths: Dockerfile .dockerignore README.md apps/pc-studio/tests/deployment.test.js apps/pc-studio/docs/ apps/pc-studio/README.md docs/PROJECT.md
 ---
 

@@ -35,6 +35,17 @@ npm start
 
 浏览器访问 `http://127.0.0.1:8765`。测试：`npm run check && npm test`。型号清单、原 v7 知识库文档和图片随源码提供；本地模式默认读取 `apps/pc-studio/data/kb/`，也可通过 `LOCAL_KB_ROOT` 指向其他副本。Docker 同样包含这份知识库，可以离线生成并读取图片，不需要 ima 凭证。默认 local 模式不代表真实 ima 检索；需做正式 live 验收时，再通过服务器端环境变量配置 `IMA_OPENAPI_CLIENTID`、`IMA_OPENAPI_APIKEY`，启用 `DEFAULT_DATA_MODE=live`。服务器绝不向前端返回凭证。
 
+### 从仓库根目录部署
+
+`Dockerfile`、`.dockerignore` 和 `ms_deploy.json` 已放在本 GitHub 仓库根目录，应用源码仍保留在 `apps/pc-studio/`。Docker / 魔搭的构建上下文请选仓库根目录：
+
+```bash
+docker build -t pc-studio .
+docker run --rm -p 7860:7860 --env-file .env -e DEFAULT_DATA_MODE=live pc-studio
+```
+
+请先按根目录 `.env.example` 准备 `.env`；Docker 通过 `--env-file` 在运行时注入凭证，构建时不会复制 `.env`。魔搭部署时用平台 Secrets 配置 ima / LLM 凭证，并设置 `DEFAULT_DATA_MODE=live`；不要把应用子目录单独作为构建上下文。镜像不打包本地知识库，未接入 ima 时页面可打开，但不能生成有依据的正式文案。
+
 - [应用说明和部署步骤](apps/pc-studio/README.md)
 - [作品说明书](apps/pc-studio/docs/作品说明书.md)
 - [真实 ima 已执行的历史验收结果](apps/pc-studio/docs/真实IMA验收.md)

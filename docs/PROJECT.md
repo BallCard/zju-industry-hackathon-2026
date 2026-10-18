@@ -10,6 +10,8 @@
 
 - 已获用户确认：PC Studio 在同一仓库内按 `apps/pc-studio/frontend/` 与 `backend/` 分离前后端目录；暂不引入独立前端构建或拆分仓库。保持单一 Node 服务、统一 package.json 与现有 API/静态资源 URL，开发在独立任务 worktree 中完成。
 
+- 已获用户确认：PC Studio 的 `Dockerfile` 和 `ms_deploy.json` 移至 GitHub 仓库根目录，应用源码保留在 `apps/pc-studio/`。Docker 构建上下文使用仓库根目录，根 `.dockerignore` 仅放行运行文件，私有知识库与凭证不进入镜像；修改经自检后直接合入并推送远端 main。
+
 ## 待定事项
 
 - 语言/框架（建议：Python 3.13 + FastAPI + 单页前端；或全 TS。选队里最熟的，别讨论超过 10 分钟）。

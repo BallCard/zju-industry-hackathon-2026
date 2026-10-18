@@ -41,11 +41,21 @@ apps/pc-studio/
 ├─ examples/            # 本地运行案例
 ├─ scripts/             # 示例生成及验收脚本
 ├─ tests/               # 单元测试与 HTTP 回归测试
-├─ package.json         # 统一启动与测试命令
-└─ Dockerfile
+└─ package.json         # 统一启动与测试命令
 ```
 
-前后端按目录分离，仍由同一个 Node 服务同源运行，不新增框架或 npm 依赖。`frontend/` 只放可公开给浏览器的文件；凭证、知识库访问和模型调用只放在 `backend/`。现有 `/api/*` 接口及 `/public/app.js`、`/public/style.css` 资源 URL 保持不变，`/public/*` 实际映射到 `frontend/`，不暴露后端目录。
+仓库根目录的 `Dockerfile` 和 `ms_deploy.json` 负责部署本应用；Docker 构建上下文必须使用仓库根目录。前后端按目录分离，仍由同一个 Node 服务同源运行，不新增框架或 npm 依赖。`frontend/` 只放可公开给浏览器的文件；凭证、知识库访问和模型调用只放在 `backend/`。现有 `/api/*` 接口及 `/public/app.js`、`/public/style.css` 资源 URL 保持不变，`/public/*` 实际映射到 `frontend/`，不暴露后端目录。
+
+## Docker / 魔搭部署
+
+Dockerfile 和 `ms_deploy.json` 位于 GitHub 仓库根目录。请在仓库根目录构建，不要在 `apps/pc-studio/` 内构建：
+
+```bash
+docker build -t pc-studio .
+docker run --rm -p 7860:7860 --env-file .env -e DEFAULT_DATA_MODE=live pc-studio
+```
+
+运行命令从仓库根目录的 `.env` 注入环境变量；请先按根目录 `.env.example` 准备该文件，勿提交实际凭证。Docker 镜像只包含公开运行所需的 PC Studio 代码、型号清单和系统提示词，不包含本地知识库、密钥或 Git 历史。正式部署时请在平台 Secrets 中配置 ima 凭证；如需启用大模型，再配置 `LLM_MODEL`、`LLM_BASE_URL` 和 `LLM_API_KEY`。容器监听 `0.0.0.0:7860`。
 
 ## 本地运行
 

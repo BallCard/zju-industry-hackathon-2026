@@ -1,0 +1,19 @@
+# Allow only PC Studio runtime files into the repository-root build context.
+# Private knowledge bases, credentials, Git history and worktrees stay out.
+**
+!Dockerfile
+!apps/
+!apps/pc-studio/
+!apps/pc-studio/package.json
+!apps/pc-studio/backend/
+!apps/pc-studio/backend/server.js
+!apps/pc-studio/backend/src/
+!apps/pc-studio/backend/src/*.js
+!apps/pc-studio/frontend/
+!apps/pc-studio/frontend/index.html
+!apps/pc-studio/frontend/app.js
+!apps/pc-studio/frontend/style.css
+!apps/pc-studio/docs/
+!apps/pc-studio/docs/SYSTEM_PROMPT.md
+!apps/pc-studio/data/
+!apps/pc-studio/data/models.json

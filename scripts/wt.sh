@@ -10,7 +10,7 @@ case "$cmd" in
   new) need_me; [ -n "$task" ] || { echo "用法: wt.sh new <task> [agent]"; exit 1; }
        base=main
        if git remote get-url origin >/dev/null 2>&1; then git fetch -q origin; base=origin/main; fi
-       git -C "$root" worktree add "$root/.worktrees/$name" -b "$branch" "$base"
+       git -C "$root" worktree add --no-track "$root/.worktrees/$name" -b "$branch" "$base"
        echo "目录: $root/.worktrees/$name  分支: $branch  (cd 进去开工)" ;;
   rm)  need_me; git -C "$root" worktree remove "$root/.worktrees/$name"; echo "已移除，分支 $branch 保留" ;;
   ls)  git -C "$root" worktree list ;;

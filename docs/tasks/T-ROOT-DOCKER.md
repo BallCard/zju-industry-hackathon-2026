@@ -1,8 +1,8 @@
 ---
 id: T-ROOT-DOCKER
 title: Move PC Studio deployment files to repository root
-owner:
-status: todo
+owner: pcstudio
+status: doing
 paths: Dockerfile .dockerignore ms_deploy.json README.md apps/pc-studio/ docs/PROJECT.md
 ---
 

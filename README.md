@@ -33,7 +33,7 @@ cd apps/pc-studio
 npm start
 ```
 
-浏览器访问 `http://127.0.0.1:8765`。测试：`npm run check && npm test`。型号清单、原 v7 知识库文档和图片随源码提供；本地模式默认读取 `apps/pc-studio/data/kb/`，也可通过 `LOCAL_KB_ROOT` 指向其他副本。Docker 同样包含这份知识库，可以离线生成并读取图片，不需要 ima 凭证。默认 local 模式不代表真实 ima 检索；需做正式 live 验收时，再通过服务器端环境变量配置 `IMA_OPENAPI_CLIENTID`、`IMA_OPENAPI_APIKEY`，启用 `DEFAULT_DATA_MODE=live`。服务器绝不向前端返回凭证。
+浏览器访问 `http://127.0.0.1:8765`。测试：`npm run check && npm test`。型号清单、原 v7 知识库文档和图片随源码提供；本地模式默认读取 `apps/pc-studio/data/kb/`，也可通过 `LOCAL_KB_ROOT` 指向其他副本。根目录 Dockerfile 按部署参考仅复制 `models.json`，不把本地知识库和图片打进镜像；云端正式演示需要配置 ima 凭证并使用 `DEFAULT_DATA_MODE=live`。服务器绝不向前端返回凭证。
 
 ### 从仓库根目录部署
 
@@ -44,7 +44,7 @@ docker build -t pc-studio .
 docker run --rm -p 7860:7860 pc-studio
 ```
 
-镜像包含已授权随项目发布的 `apps/pc-studio/data/kb/`，默认 local 模式无需凭证即可生成开发演示图文；不复制外部私有知识库、密钥或 Git 历史。正式 ima 验收时，按根目录 `.env.example` 准备 `.env`，运行 `docker run --rm -p 7860:7860 --env-file .env -e DEFAULT_DATA_MODE=live pc-studio`，或在魔搭平台 Secrets 中配置凭证并设置 `DEFAULT_DATA_MODE=live`。凭证只在运行时注入，切勿提交；本地演示不替代真实 ima 验收。
+根目录 Dockerfile 按部署参考仅复制 `models.json`、后端、前端和系统提示词，不复制本地知识库、图片、密钥或 Git 历史。因此容器默认 local 模式只能展示型号清单，正式运行请按根目录 `.env.example` 配置 ima 凭证并使用 `DEFAULT_DATA_MODE=live`。运行时可使用 `docker run --rm -p 7860:7860 --env-file .env -e DEFAULT_DATA_MODE=live pc-studio`，或在魔搭平台 Secrets 中配置。
 
 - [应用说明和部署步骤](apps/pc-studio/README.md)
 - [作品说明书](apps/pc-studio/docs/作品说明书.md)

@@ -20,7 +20,8 @@ test('Docker and ModelScope deployment files are discoverable at repository root
   assert.equal(deploy.sdk_type,'docker');
   assert.equal(deploy.port,7860);
   const ignore=fs.readFileSync(path.join(ROOT,'.dockerignore'),'utf8');
-  assert.match(ignore,/^!apps\/pc-studio\/data\/kb\/\*\*\s*$/m);
+  assert.match(ignore,/^!apps\/pc-studio\/data\/models\.json\s*$/m);
+  assert.doesNotMatch(ignore,/^!apps\/pc-studio\/data\/kb\//m);
   assert.match(dockerfile,/^EXPOSE 7860\s*$/m);
   assert.match(dockerfile,/^ENV .*HOST=0\.0\.0\.0/m);
   assert.match(dockerfile,/^CMD \["node","backend\/server\.js"\]\s*$/m);
@@ -31,9 +32,9 @@ test('root-context COPY paths produce a working standalone HTTP runtime',t=>{
   assert.deepEqual(copies.map(match=>match[1]),[
     'apps/pc-studio/package.json',
     'apps/pc-studio/backend',
-    'apps/pc-studio/docs/SYSTEM_PROMPT.md',
-    'apps/pc-studio/data',
-    'apps/pc-studio/frontend'
+    'apps/pc-studio/frontend',
+    'apps/pc-studio/data/models.json',
+    'apps/pc-studio/docs/SYSTEM_PROMPT.md'
   ]);
   const scratch=fs.mkdtempSync(path.join(os.tmpdir(),'pc-studio-root-copy-'));
   t.after(()=>fs.rmSync(scratch,{recursive:true,force:true}));
@@ -70,13 +71,13 @@ test('root-context COPY paths produce a working standalone HTTP runtime',t=>{
         }
         const health=await(await fetch(origin+'/api/health')).json();
         assert.equal(health.ok,true);
-        assert.equal(health.localKbAvailable,true);
+        assert.equal(health.localKbAvailable,false);
         assert.equal(health.imaConfigured,false);
         const manifest=JSON.parse(fs.readFileSync('data/models.json','utf8'));
         const options=await(await fetch(origin+'/api/options')).json();
         assert.equal(health.localModelCount,manifest.length);
         assert.equal(options.models.length,manifest.length);
-        assert.ok(options.models.every(model=>model.factCount>0&&model.imageCount>0));
+        assert.ok(options.models.every(model=>model.factCount===0&&model.imageCount===0));
         assert.equal(typeof require('./backend/src/llm').generateScaffold,'function');
         const response=await fetch(origin+'/api/generate',{
           method:'POST',headers:{'Content-Type':'application/json'},
@@ -85,13 +86,8 @@ test('root-context COPY paths produce a working standalone HTTP runtime',t=>{
             objective:'根据已核验资料引导实机体验',instructions:''})
         });
         const result=await response.json();
-        assert.equal(result.ok,true,result.error);
-        assert.equal(result.mode,'local');
-        assert.equal(result.audit.status,'passed');
-        assert.ok(result.images.length>0);
-        const image=await fetch(origin+'/api/local-image?model='+encodeURIComponent(result.task.product)+'&id='+encodeURIComponent(result.images[0].id));
-        assert.equal(image.status,200);
-        assert.ok((await image.arrayBuffer()).byteLength>0);
+        assert.equal(result.ok,false);
+        assert.match(result.error,/缺少该精确型号的本地演示证据/);
         for(const route of ['/backend/server.js','/docs/SYSTEM_PROMPT.md','/.env']){
           const response=await fetch(origin+route);
           assert.equal(response.status,404,route);
@@ -111,7 +107,7 @@ test('root-context COPY paths produce a working standalone HTTP runtime',t=>{
     env:{...process.env,
       NODE_ENV:'production',
       DEFAULT_DATA_MODE:'local',
-      LOCAL_KB_ROOT:'',
+      LOCAL_KB_ROOT:path.join(scratch,'missing-kb'),
       IMA_CREDENTIALS_FILE:path.join(scratch,'missing-credentials.txt'),
       IMA_OPENAPI_CLIENTID:'',
       IMA_OPENAPI_APIKEY:'',

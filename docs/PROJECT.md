@@ -10,7 +10,7 @@
 
 - 已获用户确认：PC Studio 在同一仓库内按 `apps/pc-studio/frontend/` 与 `backend/` 分离前后端目录；暂不引入独立前端构建或拆分仓库。保持单一 Node 服务、统一 package.json 与现有 API/静态资源 URL，开发在独立任务 worktree 中完成。
 
-- 已获用户确认：PC Studio 的 `Dockerfile` 和 `ms_deploy.json` 移至 GitHub 仓库根目录，应用源码保留在 `apps/pc-studio/`。Docker 构建上下文使用仓库根目录，根 `.dockerignore` 放行运行文件和已授权发布的 `apps/pc-studio/data/kb/`，外部私有知识库与凭证不进入镜像；修改经自检后直接合入并推送远端 main。
+- 已获用户确认：PC Studio 的 `Dockerfile` 和 `ms_deploy.json` 移至 GitHub 仓库根目录，应用源码保留在 `apps/pc-studio/`。Docker 构建上下文使用仓库根目录；本次按用户提供的 Dockerfile 参考逐行对齐，仅复制 `data/models.json`，不将完整知识库、图片或凭证打入镜像。知识库仍保留在源码仓库中，供非容器本地运行；修改经自检后直接合入并推送远端 main。
 
 ## 待定事项
 

@@ -61,9 +61,9 @@ docker build -t pc-studio .
 docker run --rm -p 7860:7860 pc-studio
 ```
 
-镜像包含 PC Studio 代码、系统提示词、型号清单及已授权随项目发布的 `data/kb/`，默认 local 模式无需密钥即可生成开发演示图文。外部私有知识库、密钥和 Git 历史不进入构建上下文。
+镜像包含 PC Studio 代码、系统提示词和型号清单。按用户提供的部署参考，Dockerfile 仅复制 `data/models.json`，不将 `data/kb/` 及其图片打进镜像；仓库内的授权知识库仍保留，供非容器本地运行使用。
 
-正式 ima 验收时，按仓库根目录 `.env.example` 准备 `.env`，执行 `docker run --rm -p 7860:7860 --env-file .env -e DEFAULT_DATA_MODE=live pc-studio`，或在部署平台 Secrets 中配置 ima 凭证并设置 `DEFAULT_DATA_MODE=live`；如需启用大模型，再配置 `LLM_MODEL`、`LLM_BASE_URL` 和 `LLM_API_KEY`。容器监听 `0.0.0.0:7860`。本地演示不替代正式 ima 验收，实际凭证不得提交。
+未额外挂载知识库时，容器默认 local 模式只能展示型号，不能生成有依据的本地图文。正式 ima 验收时，按仓库根目录 `.env.example` 准备 `.env`，执行 `docker run --rm -p 7860:7860 --env-file .env -e DEFAULT_DATA_MODE=live pc-studio`，或在部署平台 Secrets 中配置 ima 凭证并设置 `DEFAULT_DATA_MODE=live`；如需启用大模型，再配置 `LLM_MODEL`、`LLM_BASE_URL` 和 `LLM_API_KEY`。容器监听 `0.0.0.0:7860`。本地演示不替代正式 ima 验收，实际凭证不得提交。
 
 ## 本地运行
 

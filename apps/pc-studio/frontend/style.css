@@ -54,6 +54,7 @@ button svg{display:block}
 .chip{border:1px solid #e0e7dd;background:#f7f9f4;color:#536b56;border-radius:7px;min-height:44px;padding:7px 10px;font-size:12px;line-height:1.5}
 .chip:hover:enabled,.chip.is-active{background:#e9f1e5;border-color:#bfd1b7;color:var(--green)}
 .field{margin-bottom:21px}
+.request-field textarea{min-height:118px}
 .field small{display:block;font-size:11px;color:#849086;line-height:1.7;margin-top:6px}
 .required,.optional{font-weight:400;font-size:10px;color:#9aa298;margin-left:6px}
 .audience-chips{margin-top:8px;gap:6px}
@@ -98,8 +99,12 @@ summary::-webkit-details-marker{display:none}
 .notice.error{background:var(--error-bg);border-color:#eed2ca;color:var(--error)}
 .notice.success{background:var(--light-green);color:var(--green);border-color:#d5e4d3}
 .notice ul{margin:7px 0 0;padding-left:19px}
-.notice .candidates{display:flex;flex-direction:column;gap:7px;margin-top:13px}
-.notice .candidates .button{font-size:12px;text-align:left;justify-content:start;background:white}
+.notice .candidates{display:flex;flex-direction:column;gap:10px;margin-top:13px}
+.notice .candidate-option{padding:10px 11px;border:1px solid #ecdfbf;border-radius:8px;background:rgba(255,255,255,.55)}
+.notice .candidates .button{font-size:12px;text-align:left;justify-content:start;background:white;width:100%}
+.candidate-reason{font-size:12px;line-height:1.7;margin:8px 2px 0;color:#66552d}
+.candidate-reason strong{font-weight:600}
+.candidate-highlights{font-size:11px;line-height:1.7;margin:5px 0 0;padding-left:18px;color:#75663e}
 .working-state{margin:25px 30px;padding:18px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;gap:14px;background:#fafbf8}
 .working-state strong{font-size:13px;font-weight:500}
 .working-state p{font-size:11px;margin:4px 0 0;color:var(--muted)}

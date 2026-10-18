@@ -2,8 +2,9 @@
 
 const $ = id => document.getElementById(id);
 const state = { options: null, health: null, result: null, versions: [], selectedVersion: null,
-  versionCounter: 0, busy: false, stale: false, serviceUnreachable: false, notice: null, toastTimer: null };
-const TASK_FIELDS = ['mode', 'product', 'audience', 'platform', 'scene', 'stage', 'objective', 'instructions'];
+  versionCounter: 0, busy: false, stale: false, serviceUnreachable: false, notice: null, toastTimer: null,
+  parsedTask: null };
+const TASK_FIELDS = ['mode', 'request', 'product', 'audience', 'platform', 'scene', 'stage', 'objective', 'instructions'];
 const PLATFORM_HINTS = {
   小红书: '短段落、场景清单与话题，方便阅读和收藏。',
   公众号: '完整展开使用场景、产品亮点与选购建议。',
@@ -11,11 +12,11 @@ const PLATFORM_HINTS = {
   门店海报: '醒目的标题与简洁卖点，适合门店展示。'
 };
 const PRESETS = {
-  student: { audience: '大学新生', scene: '开学季', stage: '了解阶段', platform: '小红书',
+  student: { request: '我想给刚入学的大学生选一台适合图书馆学习和日常携带的华为电脑。', audience: '大学新生', scene: '开学季', stage: '了解阶段', platform: '小红书',
     objective: '引导到店体验', instructions: '语气轻松，结合上课、图书馆学习和日常携带，结尾邀请到店看看。' },
-  office: { audience: '经常出差的职场人群', scene: '职场办公', stage: '比较阶段', platform: '公众号',
+  office: { request: '请帮经常出差的职场人群选一台华为电脑，关注移动办公和外设连接需求。', audience: '经常出差的职场人群', scene: '职场办公', stage: '比较阶段', platform: '公众号',
     objective: '辅助比较', instructions: '围绕移动办公和外设连接，帮读者梳理选购时要确认的事情。' },
-  creator: { audience: '摄影与设计创作者', scene: '内容创作', stage: '比较阶段', platform: '小红书',
+  creator: { request: '请帮摄影与设计创作者选一台华为电脑，关注屏幕和内容创作需求。', audience: '摄影与设计创作者', scene: '内容创作', stage: '比较阶段', platform: '小红书',
     objective: '鼓励收藏分享', instructions: '重点介绍有资料支持的屏幕信息，整理成容易收藏的选购清单。' }
 };
 function esc(value) {
@@ -110,14 +111,21 @@ function clearFieldErrors() {
 }
 function validateTask(task) {
   let firstInvalid;
-  for (const [key, message] of [['product', '请选择或填写一个产品型号。'], ['audience', '写一下这篇文案想给谁看。']]) {
-    if (task[key]) continue;
-    $(key).setAttribute('aria-invalid', 'true');
-    $(key + '-error').textContent = message;
-    $(key + '-error').hidden = false;
-    firstInvalid ||= $(key);
+  if (!task.request && !task.product) {
+    $('form-error').textContent = '请先描述你的需求，或选择一个已有型号。';
+    $('form-error').hidden = false;
+    $('request').focus();
+    announce('请先描述需求或选择已有型号。');
+    return false;
   }
-  if (firstInvalid) { firstInvalid.focus(); announce('请先补充产品型号和目标人群。'); return false; }
+  // The legacy product + audience flow remains available when no free-form request is supplied.
+  if (!task.request && !task.audience) {
+    $('audience').setAttribute('aria-invalid', 'true');
+    $('audience-error').textContent = '写一下这篇文案想给谁看。';
+    $('audience-error').hidden = false;
+    firstInvalid = $('audience');
+  }
+  if (firstInvalid) { firstInvalid.focus(); announce('请先补充目标人群。'); return false; }
   return true;
 }
 function setBusy(busy, revision = false) {
@@ -235,19 +243,24 @@ function renderNotice() {
   notice.hidden = false;
   notice.className = 'notice' + (state.notice.error ? ' error' : state.notice.success ? ' success' : '');
   const items = state.notice.items || [];
+  const candidates = state.notice.candidates || [];
   notice.innerHTML = '<strong>' + esc(state.notice.title) + '</strong>'
     + (state.notice.message ? '<p>' + esc(state.notice.message) + '</p>' : '')
     + (items.length ? '<ul>' + items.map(item => '<li>' + esc(item) + '</li>').join('') + '</ul>' : '')
-    + ((state.notice.candidates || []).length ? '<div class="candidates">' + state.notice.candidates.map(candidate => {
-      const name = typeof candidate === 'string' ? candidate : candidate.name || candidate.product || '';
-      return '<button class="button secondary" type="button" data-candidate="' + esc(name) + '">' + esc(name) + '</button>';
+    + (candidates.length ? '<div class="candidates">' + candidates.map(candidate => {
+      const name = typeof candidate === 'string' ? candidate : candidate.name || candidate.model || candidate.product || '';
+      const reason = typeof candidate === 'object' ? (candidate.reason || candidate.reasons || '') : '';
+      const highlights = typeof candidate === 'object' && Array.isArray(candidate.highlights) ? candidate.highlights : [];
+      return '<div class="candidate-option"><button class="button secondary" type="button" data-candidate="' + esc(name) + '">' + esc(name) + '</button>'
+        + (reason ? '<p class="candidate-reason"><strong>选型依据：</strong>' + esc(reason) + '</p>' : '')
+        + (highlights.length ? '<ul class="candidate-highlights">' + highlights.map(item => '<li>' + esc(item) + '</li>').join('') + '</ul>' : '') + '</div>';
     }).join('') + '</div>' : '');
   notice.querySelectorAll('[data-candidate]').forEach(button => button.addEventListener('click', () => {
     $('product').value = button.dataset.candidate;
     $('product').removeAttribute('aria-invalid');
     $('product-error').hidden = true;
     $('generate').focus();
-    toast('已选择具体型号，点击「生成文案」继续。');
+    toast('已选择具体型号，原始需求已保留；点击「生成文案」继续。');
   }));
 }
 function renderVersions() {
@@ -283,9 +296,10 @@ function render() {
   }, null, 2);
 }
 function resultNotice(result) {
+  const explanation = [result.inputUnderstanding?.notice, result.generationNotice?.message].filter(Boolean).join(' ');
   if (resultStatus(result) === 'incomplete') return { title: '草稿写好了，还有些内容需要补齐',
-    message: '你可以先阅读、继续修改或导出草稿，确认缺失项后再发布。', items: missingNotes(result) };
-  if (result.generationNotice?.message) return { title: result.generationNotice.message };
+    message: ['你可以先阅读、继续修改或导出草稿，确认缺失项后再发布。', explanation].filter(Boolean).join(' '), items: missingNotes(result) };
+  if (explanation) return { title: '写稿说明', message: explanation };
   return null;
 }
 function compactPrevious(result) {
@@ -323,7 +337,8 @@ async function generate(revisionInstruction) {
     const status = resultStatus(result);
     if ((status === 'ok' || status === 'incomplete') && result.copy) {
       const previousProduct = state.result?.task?.product;
-      result.task = { ...safeTask(task), ...safeTask(result.task), mode: sourceMode({ ...result, task }) };
+      result.task = { ...safeTask(task), ...safeTask(result.task), request: task.request, mode: sourceMode({ ...result, task }) };
+      state.parsedTask = null;
       if (previousProduct && previousProduct !== result.task.product) { state.versions = []; state.versionCounter = 0; }
       state.result = result;
       state.stale = false;
@@ -340,11 +355,19 @@ async function generate(revisionInstruction) {
       state.stale = Boolean(state.result);
       const questions = (result.questions || []).map(question => typeof question === 'string' ? question : question.message || '').filter(Boolean);
       const auditMessages = (result.audit?.issues || []).map(issue => issue.message).filter(Boolean);
+      // Parsed values are task preferences, never product evidence or an automatic model selection.
+      state.parsedTask = result.parsedTask && typeof result.parsedTask === 'object'
+        ? Object.fromEntries(TASK_FIELDS.filter(key => !['mode', 'product', 'request'].includes(key))
+          .filter(key => typeof result.parsedTask[key] === 'string' && result.parsedTask[key].trim())
+          .map(key => [key, result.parsedTask[key]])) : null;
+      if (state.parsedTask) fillTask(state.parsedTask, false);
+      const candidates = Array.isArray(result.recommendations) && result.recommendations.length
+        ? result.recommendations : Array.isArray(result.candidates) ? result.candidates : [];
       state.notice = {
-        title: status === 'need_info' ? '再确认一下，就能继续写稿' : '这次还没能生成成稿',
-        message: [result.error, state.result ? '下方保留的是上一版，这次没有生成新的文案。' : '调整需求后，可以再试一次。'].filter(Boolean).join(' '),
+        title: status === 'need_info' ? (candidates.length ? '根据你的需求，先选一个具体型号' : '再确认一下，就能继续写稿') : '这次还没能生成成稿',
+        message: [result.inputUnderstanding?.notice, result.error, state.result ? '下方保留的是上一版，这次没有生成新的文案。' : '调整需求后，可以再试一次。'].filter(Boolean).join(' '),
         items: [...new Set([...questions, ...auditMessages])],
-        candidates: result.candidates || [], error: status !== 'need_info'
+        candidates, error: status !== 'need_info'
       };
       announce(state.notice.title);
     }
@@ -446,8 +469,8 @@ async function init() {
       if (!values?.length) continue;
       $(id).replaceChildren(...values.map(value => new Option(value === '门店朋友圈' ? '朋友圈' : value, value)));
     }
-    $('product').value = options.models?.find(model => /鸿蒙版/.test(model.name))?.name || options.models?.[0]?.name || '';
-    fillTask({ mode: options.defaultMode === 'live' ? 'live' : 'local', audience: '', scene: '职场办公',
+    $('product').value = '';
+    fillTask({ mode: options.defaultMode === 'live' ? 'live' : 'local', request: '', audience: '', scene: '职场办公',
       stage: '了解阶段', objective: '引导到店体验', platform: '小红书', instructions: '' });
     $('server-status').textContent = '服务已连接 · ' + (health.localModelCount || 0) + ' 个本地型号 · '
       + (health.imaConfigured ? 'ima 已配置' : 'ima 尚未配置');

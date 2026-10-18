@@ -2,7 +2,7 @@
 id: T-PCSTUDIO-APP
 title: Integrate runnable PC Studio agent
 owner: pcstudio
-status: doing
+status: done
 paths: apps/pc-studio/
 ---
 

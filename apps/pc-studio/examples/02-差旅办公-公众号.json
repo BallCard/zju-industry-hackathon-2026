@@ -1,0 +1,340 @@
+{
+  "ok": true,
+  "mode": "local",
+  "kbName": "华为PC全板块深度知识库_v7（本地演示，非组委会指定 ima 库）",
+  "warning": "本地演示资料不计作已完成 ima 接口检索；提交比赛前必须切换 live 模式复核。",
+  "task": {
+    "name": "02-差旅办公-公众号",
+    "product": "HUAWEI MateBook 14（鸿蒙版）",
+    "audience": "经常出差的职场用户",
+    "scene": "职场办公",
+    "stage": "比较阶段",
+    "platform": "公众号",
+    "objective": "讲清楚外设接口和办公任务的关系",
+    "instructions": "侧重接口和电池",
+    "mode": "local",
+    "drafting": "rules"
+  },
+  "scene": {
+    "audience": "经常出差的职场用户",
+    "scene": "职场办公",
+    "pain": "会议、移动携带与多任务处理",
+    "stage": "比较阶段",
+    "objective": "讲清楚外设接口和办公任务的关系",
+    "platform": "公众号"
+  },
+  "strategy": {
+    "explanation": "以“会议、移动携带与多任务处理”作为内容切入点；围绕接口、电池容量、机身重量、内存、操作系统排列有来源的事实，再按公众号组织内容。",
+    "priorities": [
+      {
+        "topic": "机身重量",
+        "score": 20,
+        "reason": "与职场办公需求相关"
+      },
+      {
+        "topic": "接口",
+        "score": 17,
+        "reason": "与职场办公需求相关"
+      },
+      {
+        "topic": "电池容量",
+        "score": 14,
+        "reason": "与职场办公需求相关"
+      },
+      {
+        "topic": "操作系统",
+        "score": 11,
+        "reason": "与职场办公需求相关"
+      },
+      {
+        "topic": "内存",
+        "score": 8,
+        "reason": "与职场办公需求相关"
+      }
+    ],
+    "platform": {
+      "images": 3,
+      "tone": "专业、解释充分",
+      "structure": "导语→需求拆解→产品事实→购买建议→行动引导",
+      "cta": "咨询门店并根据实际配置体验"
+    },
+    "selected": [
+      {
+        "topic": "接口",
+        "score": 32.955,
+        "rationale": "用户明确要求侧重此项",
+        "id": "F10"
+      },
+      {
+        "topic": "电池容量",
+        "score": 25.96,
+        "rationale": "用户明确要求侧重此项",
+        "id": "F09"
+      },
+      {
+        "topic": "机身重量",
+        "score": 19.98,
+        "rationale": "与职场办公需求相关",
+        "id": "F05"
+      },
+      {
+        "topic": "内存",
+        "score": 11.97,
+        "rationale": "与职场办公需求相关",
+        "id": "F07"
+      },
+      {
+        "topic": "操作系统",
+        "score": 11,
+        "rationale": "与职场办公需求相关",
+        "id": "F01"
+      }
+    ]
+  },
+  "facts": [
+    {
+      "id": "F10",
+      "topic": "接口",
+      "quote": "左侧：HDMI2.1 TMDS × 1；USB-C × 1*；USB -A × 1**；3.5 mm 耳机和麦克风二合一接口",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\产品事实.md",
+      "sourceType": "local",
+      "supported": true,
+      "score": 32.955,
+      "rationale": "用户明确要求侧重此项"
+    },
+    {
+      "id": "F09",
+      "topic": "电池容量",
+      "quote": "70 Wh（额定容量）",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\产品事实.md",
+      "sourceType": "local",
+      "supported": true,
+      "score": 25.96,
+      "rationale": "用户明确要求侧重此项"
+    },
+    {
+      "id": "F05",
+      "topic": "机身重量",
+      "quote": "约 1.33 kg（圆键盘含电池）",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\产品事实.md",
+      "sourceType": "local",
+      "supported": true,
+      "score": 19.98,
+      "rationale": "与职场办公需求相关"
+    },
+    {
+      "id": "F07",
+      "topic": "内存",
+      "quote": "24 GB / 32 GB",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\产品事实.md",
+      "sourceType": "local",
+      "supported": true,
+      "score": 11.97,
+      "rationale": "与职场办公需求相关"
+    },
+    {
+      "id": "F01",
+      "topic": "操作系统",
+      "quote": "HarmonyOS 6",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\产品事实.md",
+      "sourceType": "local",
+      "supported": true,
+      "score": 11,
+      "rationale": "与职场办公需求相关"
+    }
+  ],
+  "images": [
+    {
+      "id": "I02",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "filename": "hwpc_matebook-14-harmonyos_多彩配色外观_01_7e0eedb6.png",
+      "description": "HUAWEI MateBook 14 樱粉金",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "originalUrl": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/harmonyos-computer/matebook-14-harmonyos-version/img/design/huawei-matebook-14-color-pink.png",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 图片索引",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\图片索引.csv",
+      "origin": "local",
+      "width": 817,
+      "height": 892,
+      "position": "标题下方的主视觉",
+      "why": "先展示准确型号的产品形态",
+      "score": 4
+    },
+    {
+      "id": "I01",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "filename": "hwpc_matebook-14-harmonyos_原野绿多彩配色_04.png",
+      "description": "原野绿多彩配色",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "originalUrl": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/harmonyos-computer/matebook-14-harmonyos-version/img/design/huawei-matebook-14-color-green.png",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 图片索引",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\图片索引.csv",
+      "origin": "local",
+      "width": 817,
+      "height": 892,
+      "position": "第一个产品事实段落后",
+      "why": "与当前场景的产品事实形成对应",
+      "score": 0
+    },
+    {
+      "id": "I03",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "filename": "hwpc_matebook-14-harmonyos_手写笔创作场景_07.jpg",
+      "description": "手写笔创作场景",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "originalUrl": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/harmonyos-computer/matebook-14-harmonyos-version/img/design/huawei-matebook-14-accessories-m-pen-3.jpg",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 图片索引",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\图片索引.csv",
+      "origin": "local",
+      "width": 1048,
+      "height": 588,
+      "position": "购买建议段落前",
+      "why": "与当前场景的产品事实形成对应",
+      "score": 0
+    }
+  ],
+  "generationEngine": "自研规则式语言组织",
+  "copy": {
+    "title": "每天真正高频的办公任务，决定了电脑该看什么｜HUAWEI MateBook 14（鸿蒙版）场景化选购指南",
+    "intro": "在职场办公场景里，同一个产品的卖点顺序未必相同。面对“会议、移动携带与多任务处理”这一问题，先判断每天的主要任务，再核对设备的具体版本与配置。",
+    "body": "## 先看实际问题\n会议、移动携带与多任务处理。因此，本文将重点放在接口、电池容量、机身重量，而不是一味堆砌性能形容词。\n\n## 从资料中核对哪些事实\n1. 【接口】左侧：HDMI2.1 TMDS × 1；USB-C × 1*；USB -A × 1**；3.5 mm 耳机和麦克风二合一接口\n2. 【电池容量】70 Wh（额定容量）\n3. 【机身重量】约 1.33 kg（圆键盘含电池）\n4. 【内存】24 GB / 32 GB\n5. 【操作系统】HarmonyOS 6\n\n## 如何把事实变成选购判断\n经常出差的职场用户可把上述信息逐项对照自己的实际工作流；如果涉及特定软件、配置差异或外设组合，应在下单前现场确认。\n\n## 必须保留的条件\n以上参数依据已检索资料整理，实际配置、系统版本与功能适用条件请以对应销售版本及官方最新信息为准。",
+    "cta": "建议带着上述核对清单到店体验HUAWEI MateBook 14（鸿蒙版），并向工作人员确认对应SKU与适用功能。",
+    "tags": "",
+    "platform": "公众号",
+    "fullText": "# 每天真正高频的办公任务，决定了电脑该看什么｜HUAWEI MateBook 14（鸿蒙版）场景化选购指南\n\n在职场办公场景里，同一个产品的卖点顺序未必相同。面对“会议、移动携带与多任务处理”这一问题，先判断每天的主要任务，再核对设备的具体版本与配置。\n\n## 先看实际问题\n会议、移动携带与多任务处理。因此，本文将重点放在接口、电池容量、机身重量，而不是一味堆砌性能形容词。\n\n## 从资料中核对哪些事实\n1. 【接口】左侧：HDMI2.1 TMDS × 1；USB-C × 1*；USB -A × 1**；3.5 mm 耳机和麦克风二合一接口\n2. 【电池容量】70 Wh（额定容量）\n3. 【机身重量】约 1.33 kg（圆键盘含电池）\n4. 【内存】24 GB / 32 GB\n5. 【操作系统】HarmonyOS 6\n\n## 如何把事实变成选购判断\n经常出差的职场用户可把上述信息逐项对照自己的实际工作流；如果涉及特定软件、配置差异或外设组合，应在下单前现场确认。\n\n## 必须保留的条件\n以上参数依据已检索资料整理，实际配置、系统版本与功能适用条件请以对应销售版本及官方最新信息为准。\n\n**行动引导**：建议带着上述核对清单到店体验HUAWEI MateBook 14（鸿蒙版），并向工作人员确认对应SKU与适用功能。"
+  },
+  "audit": {
+    "status": "passed",
+    "productFacts": {
+      "passed": true,
+      "items": [
+        {
+          "id": "F10",
+          "topic": "接口",
+          "passed": true,
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+          "sourceType": "local",
+          "quote": "左侧：HDMI2.1 TMDS × 1；USB-C × 1*；USB -A × 1**；3.5 mm 耳机和麦克风二合一接口"
+        },
+        {
+          "id": "F09",
+          "topic": "电池容量",
+          "passed": true,
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+          "sourceType": "local",
+          "quote": "70 Wh（额定容量）"
+        },
+        {
+          "id": "F05",
+          "topic": "机身重量",
+          "passed": true,
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+          "sourceType": "local",
+          "quote": "约 1.33 kg（圆键盘含电池）"
+        },
+        {
+          "id": "F07",
+          "topic": "内存",
+          "passed": true,
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+          "sourceType": "local",
+          "quote": "24 GB / 32 GB"
+        },
+        {
+          "id": "F01",
+          "topic": "操作系统",
+          "passed": true,
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+          "sourceType": "local",
+          "quote": "HarmonyOS 6"
+        }
+      ]
+    },
+    "images": {
+      "passed": true,
+      "items": [
+        {
+          "id": "I02",
+          "filename": "hwpc_matebook-14-harmonyos_多彩配色外观_01_7e0eedb6.png",
+          "passed": true,
+          "mediaId": "",
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 图片索引",
+          "origin": "local"
+        },
+        {
+          "id": "I01",
+          "filename": "hwpc_matebook-14-harmonyos_原野绿多彩配色_04.png",
+          "passed": true,
+          "mediaId": "",
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 图片索引",
+          "origin": "local"
+        },
+        {
+          "id": "I03",
+          "filename": "hwpc_matebook-14-harmonyos_手写笔创作场景_07.jpg",
+          "passed": true,
+          "mediaId": "",
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 图片索引",
+          "origin": "local"
+        }
+      ],
+      "missing": 0
+    },
+    "compliance": {
+      "passed": true,
+      "outputRisks": [],
+      "inputRisks": [],
+      "discardedInputInstructions": ""
+    },
+    "unknowns": [
+      "真实售价、补贴、库存和促销权益未核验，不应写入稿件"
+    ]
+  },
+  "trace": [
+    {
+      "step": "场景解析",
+      "status": "完成",
+      "note": "经常出差的职场用户 / 职场办公 / 比较阶段"
+    },
+    {
+      "step": "知识库检索",
+      "status": "完成",
+      "note": "华为PC全板块深度知识库_v7（本地演示，非组委会指定 ima 库） / 10条事实 / 4张图片"
+    },
+    {
+      "step": "场景与平台策略",
+      "status": "完成",
+      "note": "以“会议、移动携带与多任务处理”作为内容切入点；围绕接口、电池容量、机身重量、内存、操作系统排列有来源的事实，再按公众号组织内容。"
+    },
+    {
+      "step": "图文软文生成",
+      "status": "完成",
+      "note": "自研规则式语言组织；所选事实 5 条"
+    },
+    {
+      "step": "事实、图片与合规复核",
+      "status": "passed",
+      "note": "真实售价、补贴、库存和促销权益未核验，不应写入稿件"
+    }
+  ],
+  "meta": {
+    "durationMs": 1,
+    "generatedAt": "2026-10-18T06:22:10.209Z",
+    "traceVersion": "1.0"
+  }
+}

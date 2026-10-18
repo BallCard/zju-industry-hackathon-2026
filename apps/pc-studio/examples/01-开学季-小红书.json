@@ -1,0 +1,364 @@
+{
+  "ok": true,
+  "mode": "local",
+  "kbName": "华为PC全板块深度知识库_v7（本地演示，非组委会指定 ima 库）",
+  "warning": "本地演示资料不计作已完成 ima 接口检索；提交比赛前必须切换 live 模式复核。",
+  "task": {
+    "name": "01-开学季-小红书",
+    "product": "HUAWEI MateBook 14（鸿蒙版）",
+    "audience": "大一新生",
+    "scene": "开学季",
+    "stage": "了解阶段",
+    "platform": "小红书",
+    "objective": "理清学习与携带需求",
+    "instructions": "侧重轻薄与屏幕",
+    "mode": "local",
+    "drafting": "rules"
+  },
+  "scene": {
+    "audience": "大一新生",
+    "scene": "开学季",
+    "pain": "兼顾课程任务、携带与校园生活",
+    "stage": "了解阶段",
+    "objective": "理清学习与携带需求",
+    "platform": "小红书"
+  },
+  "strategy": {
+    "explanation": "以“兼顾课程任务、携带与校园生活”作为内容切入点；围绕机身重量、电池容量、屏幕尺寸、屏幕类型、操作系统排列有来源的事实，再按小红书组织内容。",
+    "priorities": [
+      {
+        "topic": "机身重量",
+        "score": 20,
+        "reason": "与开学季需求相关"
+      },
+      {
+        "topic": "电池容量",
+        "score": 17,
+        "reason": "与开学季需求相关"
+      },
+      {
+        "topic": "屏幕尺寸",
+        "score": 14,
+        "reason": "与开学季需求相关"
+      },
+      {
+        "topic": "操作系统",
+        "score": 11,
+        "reason": "与开学季需求相关"
+      },
+      {
+        "topic": "内存",
+        "score": 8,
+        "reason": "与开学季需求相关"
+      }
+    ],
+    "platform": {
+      "images": 4,
+      "tone": "短句、自然、场景化、不伪装亲测",
+      "structure": "共鸣标题→场景困扰→事实清单→选择提示→话题标签",
+      "cta": "收藏清单，带着需求到店实际体验"
+    },
+    "selected": [
+      {
+        "topic": "机身重量",
+        "score": 31.98,
+        "rationale": "用户明确要求侧重此项",
+        "id": "F05"
+      },
+      {
+        "topic": "电池容量",
+        "score": 16.96,
+        "rationale": "与开学季需求相关",
+        "id": "F09"
+      },
+      {
+        "topic": "屏幕尺寸",
+        "score": 13.995,
+        "rationale": "与开学季需求相关",
+        "id": "F02"
+      },
+      {
+        "topic": "屏幕类型",
+        "score": 13.99,
+        "rationale": "用户明确要求侧重此项",
+        "id": "F03"
+      },
+      {
+        "topic": "操作系统",
+        "score": 11,
+        "rationale": "与开学季需求相关",
+        "id": "F01"
+      }
+    ]
+  },
+  "facts": [
+    {
+      "id": "F05",
+      "topic": "机身重量",
+      "quote": "约 1.33 kg（圆键盘含电池）",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\产品事实.md",
+      "sourceType": "local",
+      "supported": true,
+      "score": 31.98,
+      "rationale": "用户明确要求侧重此项"
+    },
+    {
+      "id": "F09",
+      "topic": "电池容量",
+      "quote": "70 Wh（额定容量）",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\产品事实.md",
+      "sourceType": "local",
+      "supported": true,
+      "score": 16.96,
+      "rationale": "与开学季需求相关"
+    },
+    {
+      "id": "F02",
+      "topic": "屏幕尺寸",
+      "quote": "14.2 英寸",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\产品事实.md",
+      "sourceType": "local",
+      "supported": true,
+      "score": 13.995,
+      "rationale": "与开学季需求相关"
+    },
+    {
+      "id": "F03",
+      "topic": "屏幕类型",
+      "quote": "OLED（抗反射屏）",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\产品事实.md",
+      "sourceType": "local",
+      "supported": true,
+      "score": 13.99,
+      "rationale": "用户明确要求侧重此项"
+    },
+    {
+      "id": "F01",
+      "topic": "操作系统",
+      "quote": "HarmonyOS 6",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\产品事实.md",
+      "sourceType": "local",
+      "supported": true,
+      "score": 11,
+      "rationale": "与开学季需求相关"
+    }
+  ],
+  "images": [
+    {
+      "id": "I02",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "filename": "hwpc_matebook-14-harmonyos_多彩配色外观_01_7e0eedb6.png",
+      "description": "HUAWEI MateBook 14 樱粉金",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "originalUrl": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/harmonyos-computer/matebook-14-harmonyos-version/img/design/huawei-matebook-14-color-pink.png",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 图片索引",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\图片索引.csv",
+      "origin": "local",
+      "width": 817,
+      "height": 892,
+      "position": "标题下方的主视觉",
+      "why": "先展示准确型号的产品形态",
+      "score": 4
+    },
+    {
+      "id": "I01",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "filename": "hwpc_matebook-14-harmonyos_原野绿多彩配色_04.png",
+      "description": "原野绿多彩配色",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "originalUrl": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/harmonyos-computer/matebook-14-harmonyos-version/img/design/huawei-matebook-14-color-green.png",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 图片索引",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\图片索引.csv",
+      "origin": "local",
+      "width": 817,
+      "height": 892,
+      "position": "第一个产品事实段落后",
+      "why": "与当前场景的产品事实形成对应",
+      "score": 0
+    },
+    {
+      "id": "I03",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "filename": "hwpc_matebook-14-harmonyos_手写笔创作场景_07.jpg",
+      "description": "手写笔创作场景",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "originalUrl": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/harmonyos-computer/matebook-14-harmonyos-version/img/design/huawei-matebook-14-accessories-m-pen-3.jpg",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 图片索引",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\图片索引.csv",
+      "origin": "local",
+      "width": 1048,
+      "height": 588,
+      "position": "购买建议段落前",
+      "why": "与当前场景的产品事实形成对应",
+      "score": 0
+    },
+    {
+      "id": "I04",
+      "model": "HUAWEI MateBook 14（鸿蒙版）",
+      "filename": "hwpc_matebook-14-harmonyos_深空灰沉稳配色_05.png",
+      "description": "深空灰沉稳配色",
+      "sourceUrl": "https://consumer.huawei.com/cn/harmonyos-computer/matebook-14-harmonyos-version/",
+      "originalUrl": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/harmonyos-computer/matebook-14-harmonyos-version/img/design/huawei-matebook-14-color-grey.png",
+      "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 图片索引",
+      "sourcePath": "P1-产品参数库\\01-鸿蒙电脑\\HUAWEI MateBook 14\\图片索引.csv",
+      "origin": "local",
+      "width": 817,
+      "height": 892,
+      "position": "结尾行动引导前",
+      "why": "与当前场景的产品事实形成对应",
+      "score": 0
+    }
+  ],
+  "generationEngine": "自研规则式语言组织",
+  "copy": {
+    "title": "大一新生选HUAWEI MateBook 14（鸿蒙版）：先看这份需求清单",
+    "intro": "📌 开学选电脑，不必一上来只比参数。\n面对“兼顾课程任务、携带与校园生活”这一问题，先判断每天的主要任务，再核对设备的具体版本与配置。",
+    "body": "### 先想清楚用途\n大一新生，优先关注：机身重量、电池容量、屏幕尺寸。\n\n### 再核对公开资料\n1. 【机身重量】约 1.33 kg（圆键盘含电池）\n2. 【电池容量】70 Wh（额定容量）\n3. 【屏幕尺寸】14.2 英寸\n4. 【屏幕类型】OLED（抗反射屏）\n5. 【操作系统】HarmonyOS 6\n\n### 选购前还要问\n具体销售版本能否满足常用软件、接口及外设需求？\n\n以上参数依据已检索资料整理，实际配置、系统版本与功能适用条件请以对应销售版本及官方最新信息为准。",
+    "cta": "💬 收藏清单，带着需求到店实际体验，把你的常用场景列出来再比较。",
+    "tags": "#华为MateBook #电脑选购 #开学季 #选机攻略",
+    "platform": "小红书",
+    "fullText": "# 大一新生选HUAWEI MateBook 14（鸿蒙版）：先看这份需求清单\n\n📌 开学选电脑，不必一上来只比参数。\n面对“兼顾课程任务、携带与校园生活”这一问题，先判断每天的主要任务，再核对设备的具体版本与配置。\n\n### 先想清楚用途\n大一新生，优先关注：机身重量、电池容量、屏幕尺寸。\n\n### 再核对公开资料\n1. 【机身重量】约 1.33 kg（圆键盘含电池）\n2. 【电池容量】70 Wh（额定容量）\n3. 【屏幕尺寸】14.2 英寸\n4. 【屏幕类型】OLED（抗反射屏）\n5. 【操作系统】HarmonyOS 6\n\n### 选购前还要问\n具体销售版本能否满足常用软件、接口及外设需求？\n\n以上参数依据已检索资料整理，实际配置、系统版本与功能适用条件请以对应销售版本及官方最新信息为准。\n\n**行动引导**：💬 收藏清单，带着需求到店实际体验，把你的常用场景列出来再比较。\n\n#华为MateBook #电脑选购 #开学季 #选机攻略"
+  },
+  "audit": {
+    "status": "passed",
+    "productFacts": {
+      "passed": true,
+      "items": [
+        {
+          "id": "F05",
+          "topic": "机身重量",
+          "passed": true,
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+          "sourceType": "local",
+          "quote": "约 1.33 kg（圆键盘含电池）"
+        },
+        {
+          "id": "F09",
+          "topic": "电池容量",
+          "passed": true,
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+          "sourceType": "local",
+          "quote": "70 Wh（额定容量）"
+        },
+        {
+          "id": "F02",
+          "topic": "屏幕尺寸",
+          "passed": true,
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+          "sourceType": "local",
+          "quote": "14.2 英寸"
+        },
+        {
+          "id": "F03",
+          "topic": "屏幕类型",
+          "passed": true,
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+          "sourceType": "local",
+          "quote": "OLED（抗反射屏）"
+        },
+        {
+          "id": "F01",
+          "topic": "操作系统",
+          "passed": true,
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 产品事实",
+          "sourceType": "local",
+          "quote": "HarmonyOS 6"
+        }
+      ]
+    },
+    "images": {
+      "passed": true,
+      "items": [
+        {
+          "id": "I02",
+          "filename": "hwpc_matebook-14-harmonyos_多彩配色外观_01_7e0eedb6.png",
+          "passed": true,
+          "mediaId": "",
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 图片索引",
+          "origin": "local"
+        },
+        {
+          "id": "I01",
+          "filename": "hwpc_matebook-14-harmonyos_原野绿多彩配色_04.png",
+          "passed": true,
+          "mediaId": "",
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 图片索引",
+          "origin": "local"
+        },
+        {
+          "id": "I03",
+          "filename": "hwpc_matebook-14-harmonyos_手写笔创作场景_07.jpg",
+          "passed": true,
+          "mediaId": "",
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 图片索引",
+          "origin": "local"
+        },
+        {
+          "id": "I04",
+          "filename": "hwpc_matebook-14-harmonyos_深空灰沉稳配色_05.png",
+          "passed": true,
+          "mediaId": "",
+          "sourceTitle": "HUAWEI MateBook 14（鸿蒙版） - 图片索引",
+          "origin": "local"
+        }
+      ],
+      "missing": 0
+    },
+    "compliance": {
+      "passed": true,
+      "outputRisks": [],
+      "inputRisks": [],
+      "discardedInputInstructions": ""
+    },
+    "unknowns": [
+      "真实售价、补贴、库存和促销权益未核验，不应写入稿件"
+    ]
+  },
+  "trace": [
+    {
+      "step": "场景解析",
+      "status": "完成",
+      "note": "大一新生 / 开学季 / 了解阶段"
+    },
+    {
+      "step": "知识库检索",
+      "status": "完成",
+      "note": "华为PC全板块深度知识库_v7（本地演示，非组委会指定 ima 库） / 10条事实 / 4张图片"
+    },
+    {
+      "step": "场景与平台策略",
+      "status": "完成",
+      "note": "以“兼顾课程任务、携带与校园生活”作为内容切入点；围绕机身重量、电池容量、屏幕尺寸、屏幕类型、操作系统排列有来源的事实，再按小红书组织内容。"
+    },
+    {
+      "step": "图文软文生成",
+      "status": "完成",
+      "note": "自研规则式语言组织；所选事实 5 条"
+    },
+    {
+      "step": "事实、图片与合规复核",
+      "status": "passed",
+      "note": "真实售价、补贴、库存和促销权益未核验，不应写入稿件"
+    }
+  ],
+  "meta": {
+    "durationMs": 3,
+    "generatedAt": "2026-10-18T06:22:10.198Z",
+    "traceVersion": "1.0"
+  }
+}

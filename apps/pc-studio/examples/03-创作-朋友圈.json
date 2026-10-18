@@ -1,0 +1,262 @@
+{
+  "ok": true,
+  "mode": "local",
+  "kbName": "华为PC全板块深度知识库_v7（本地演示，非组委会指定 ima 库）",
+  "warning": "本地演示资料不计作已完成 ima 接口检索；提交比赛前必须切换 live 模式复核。",
+  "task": {
+    "name": "03-创作-朋友圈",
+    "product": "HUAWEI MateBook 14 酷睿 Ultra",
+    "audience": "设计师与摄影师",
+    "scene": "内容创作",
+    "stage": "比较阶段",
+    "platform": "门店朋友圈",
+    "objective": "鼓励实机体验屏幕与常用软件兼容性",
+    "instructions": "侧重屏幕和分辨率",
+    "mode": "local",
+    "drafting": "rules"
+  },
+  "scene": {
+    "audience": "设计师与摄影师",
+    "scene": "内容创作",
+    "pain": "屏幕表现、素材管理与创作软件兼容",
+    "stage": "比较阶段",
+    "objective": "鼓励实机体验屏幕与常用软件兼容性",
+    "platform": "门店朋友圈"
+  },
+  "strategy": {
+    "explanation": "以“屏幕表现、素材管理与创作软件兼容”作为内容切入点；围绕屏幕分辨率、屏幕类型、处理器排列有来源的事实，再按门店朋友圈组织内容。",
+    "priorities": [
+      {
+        "topic": "屏幕分辨率",
+        "score": 20,
+        "reason": "与内容创作需求相关"
+      },
+      {
+        "topic": "屏幕类型",
+        "score": 17,
+        "reason": "与内容创作需求相关"
+      },
+      {
+        "topic": "处理器",
+        "score": 14,
+        "reason": "与内容创作需求相关"
+      },
+      {
+        "topic": "内存",
+        "score": 11,
+        "reason": "与内容创作需求相关"
+      },
+      {
+        "topic": "接口",
+        "score": 8,
+        "reason": "与内容创作需求相关"
+      }
+    ],
+    "platform": {
+      "images": 2,
+      "tone": "短、真诚、明确到店理由",
+      "structure": "一句场景洞察→重点事实→到店咨询",
+      "cta": "私信咨询具体版本或预约门店体验"
+    },
+    "selected": [
+      {
+        "topic": "屏幕分辨率",
+        "score": 35.985,
+        "rationale": "用户明确要求侧重此项",
+        "id": "F04"
+      },
+      {
+        "topic": "屏幕类型",
+        "score": 28.99,
+        "rationale": "用户明确要求侧重此项",
+        "id": "F03"
+      },
+      {
+        "topic": "处理器",
+        "score": 17.975,
+        "rationale": "与内容创作需求相关",
+        "id": "F06"
+      }
+    ]
+  },
+  "facts": [
+    {
+      "id": "F04",
+      "topic": "屏幕分辨率",
+      "quote": "2880 × 1920，243 ppi",
+      "model": "HUAWEI MateBook 14 酷睿 Ultra",
+      "sourceTitle": "HUAWEI MateBook 14 酷睿 Ultra - 产品事实",
+      "sourceUrl": "https://consumer.huawei.com/cn/laptops/matebook-14-2024/",
+      "sourcePath": "P1-产品参数库\\02-MateBook-Windows\\MateBook 14 酷睿 Ultra\\产品事实.md",
+      "sourceType": "local",
+      "supported": true,
+      "score": 35.985,
+      "rationale": "用户明确要求侧重此项"
+    },
+    {
+      "id": "F03",
+      "topic": "屏幕类型",
+      "quote": "OLED",
+      "model": "HUAWEI MateBook 14 酷睿 Ultra",
+      "sourceTitle": "HUAWEI MateBook 14 酷睿 Ultra - 产品事实",
+      "sourceUrl": "https://consumer.huawei.com/cn/laptops/matebook-14-2024/",
+      "sourcePath": "P1-产品参数库\\02-MateBook-Windows\\MateBook 14 酷睿 Ultra\\产品事实.md",
+      "sourceType": "local",
+      "supported": true,
+      "score": 28.99,
+      "rationale": "用户明确要求侧重此项"
+    },
+    {
+      "id": "F06",
+      "topic": "处理器",
+      "quote": "英特尔® 酷睿™ Ultra 7 155H 处理器",
+      "model": "HUAWEI MateBook 14 酷睿 Ultra",
+      "sourceTitle": "HUAWEI MateBook 14 酷睿 Ultra - 产品事实",
+      "sourceUrl": "https://consumer.huawei.com/cn/laptops/matebook-14-2024/",
+      "sourcePath": "P1-产品参数库\\02-MateBook-Windows\\MateBook 14 酷睿 Ultra\\产品事实.md",
+      "sourceType": "local",
+      "supported": true,
+      "score": 17.975,
+      "rationale": "与内容创作需求相关"
+    }
+  ],
+  "images": [
+    {
+      "id": "I03",
+      "model": "HUAWEI MateBook 14 酷睿 Ultra",
+      "filename": "hwpc_matebook-14-2024_高清护眼屏幕_05_d640f28e.jpg",
+      "description": "HUAWEI MateBook 14 2024 OLED屏幕",
+      "sourceUrl": "https://consumer.huawei.com/cn/laptops/matebook-14-2024/",
+      "originalUrl": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/laptops/matebook-14-2024/images/huawei-matebook-14-2024-oled-vague-blur.jpg",
+      "sourceTitle": "HUAWEI MateBook 14 酷睿 Ultra - 图片索引",
+      "sourcePath": "P1-产品参数库\\02-MateBook-Windows\\MateBook 14 酷睿 Ultra\\图片索引.csv",
+      "origin": "local",
+      "width": 1440,
+      "height": 750,
+      "position": "标题下方的主视觉",
+      "why": "先展示准确型号的产品形态",
+      "score": 13
+    },
+    {
+      "id": "I04",
+      "model": "HUAWEI MateBook 14 酷睿 Ultra",
+      "filename": "hwpc_matebook-14-2024_高清护眼屏幕_06_d9033734.jpg",
+      "description": "HUAWEI MateBook 14 2024 OLED屏幕",
+      "sourceUrl": "https://consumer.huawei.com/cn/laptops/matebook-14-2024/",
+      "originalUrl": "https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/laptops/matebook-14-2024/images/huawei-matebook-14-2024-oled-high-definition-blur.jpg",
+      "sourceTitle": "HUAWEI MateBook 14 酷睿 Ultra - 图片索引",
+      "sourcePath": "P1-产品参数库\\02-MateBook-Windows\\MateBook 14 酷睿 Ultra\\图片索引.csv",
+      "origin": "local",
+      "width": 1440,
+      "height": 750,
+      "position": "第一个产品事实段落后",
+      "why": "与当前场景的产品事实形成对应",
+      "score": 13
+    }
+  ],
+  "generationEngine": "自研规则式语言组织",
+  "copy": {
+    "title": "设计师与摄影师看机提醒｜HUAWEI MateBook 14 酷睿 Ultra",
+    "intro": "创作设备怎么选，先把工作流程梳理清楚。",
+    "body": "• 【屏幕分辨率】2880 × 1920，243 ppi\n• 【屏幕类型】OLED\n以上参数依据已检索资料整理，实际配置、系统版本与功能适用条件请以对应销售版本及官方最新信息为准。",
+    "cta": "欢迎私信咨询或到店体验，先核对需求，再看具体版本。",
+    "tags": "",
+    "platform": "门店朋友圈",
+    "fullText": "# 设计师与摄影师看机提醒｜HUAWEI MateBook 14 酷睿 Ultra\n\n创作设备怎么选，先把工作流程梳理清楚。\n\n• 【屏幕分辨率】2880 × 1920，243 ppi\n• 【屏幕类型】OLED\n以上参数依据已检索资料整理，实际配置、系统版本与功能适用条件请以对应销售版本及官方最新信息为准。\n\n**行动引导**：欢迎私信咨询或到店体验，先核对需求，再看具体版本。"
+  },
+  "audit": {
+    "status": "passed",
+    "productFacts": {
+      "passed": true,
+      "items": [
+        {
+          "id": "F04",
+          "topic": "屏幕分辨率",
+          "passed": true,
+          "sourceTitle": "HUAWEI MateBook 14 酷睿 Ultra - 产品事实",
+          "sourceType": "local",
+          "quote": "2880 × 1920，243 ppi"
+        },
+        {
+          "id": "F03",
+          "topic": "屏幕类型",
+          "passed": true,
+          "sourceTitle": "HUAWEI MateBook 14 酷睿 Ultra - 产品事实",
+          "sourceType": "local",
+          "quote": "OLED"
+        },
+        {
+          "id": "F06",
+          "topic": "处理器",
+          "passed": true,
+          "sourceTitle": "HUAWEI MateBook 14 酷睿 Ultra - 产品事实",
+          "sourceType": "local",
+          "quote": "英特尔® 酷睿™ Ultra 7 155H 处理器"
+        }
+      ]
+    },
+    "images": {
+      "passed": true,
+      "items": [
+        {
+          "id": "I03",
+          "filename": "hwpc_matebook-14-2024_高清护眼屏幕_05_d640f28e.jpg",
+          "passed": true,
+          "mediaId": "",
+          "sourceTitle": "HUAWEI MateBook 14 酷睿 Ultra - 图片索引",
+          "origin": "local"
+        },
+        {
+          "id": "I04",
+          "filename": "hwpc_matebook-14-2024_高清护眼屏幕_06_d9033734.jpg",
+          "passed": true,
+          "mediaId": "",
+          "sourceTitle": "HUAWEI MateBook 14 酷睿 Ultra - 图片索引",
+          "origin": "local"
+        }
+      ],
+      "missing": 0
+    },
+    "compliance": {
+      "passed": true,
+      "outputRisks": [],
+      "inputRisks": [],
+      "discardedInputInstructions": ""
+    },
+    "unknowns": [
+      "真实售价、补贴、库存和促销权益未核验，不应写入稿件"
+    ]
+  },
+  "trace": [
+    {
+      "step": "场景解析",
+      "status": "完成",
+      "note": "设计师与摄影师 / 内容创作 / 比较阶段"
+    },
+    {
+      "step": "知识库检索",
+      "status": "完成",
+      "note": "华为PC全板块深度知识库_v7（本地演示，非组委会指定 ima 库） / 10条事实 / 8张图片"
+    },
+    {
+      "step": "场景与平台策略",
+      "status": "完成",
+      "note": "以“屏幕表现、素材管理与创作软件兼容”作为内容切入点；围绕屏幕分辨率、屏幕类型、处理器排列有来源的事实，再按门店朋友圈组织内容。"
+    },
+    {
+      "step": "图文软文生成",
+      "status": "完成",
+      "note": "自研规则式语言组织；所选事实 3 条"
+    },
+    {
+      "step": "事实、图片与合规复核",
+      "status": "passed",
+      "note": "真实售价、补贴、库存和促销权益未核验，不应写入稿件"
+    }
+  ],
+  "meta": {
+    "durationMs": 1,
+    "generatedAt": "2026-10-18T06:22:10.211Z",
+    "traceVersion": "1.0"
+  }
+}

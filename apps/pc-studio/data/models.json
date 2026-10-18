@@ -1,0 +1,52 @@
+[
+  {
+    "name": "HUAWEI MateBook 14（鸿蒙版）",
+    "system": "01-鸿蒙电脑",
+    "folder": "HUAWEI MateBook 14"
+  },
+  {
+    "name": "HUAWEI MateBook Fold 非凡大师",
+    "system": "01-鸿蒙电脑",
+    "folder": "HUAWEI MateBook Fold 非凡大师"
+  },
+  {
+    "name": "HUAWEI MateBook Pro",
+    "system": "01-鸿蒙电脑",
+    "folder": "HUAWEI MateBook Pro"
+  },
+  {
+    "name": "HUAWEI MateBook Pro S",
+    "system": "01-鸿蒙电脑",
+    "folder": "HUAWEI MateBook Pro S"
+  },
+  {
+    "name": "HUAWEI MateBook 14 酷睿 Ultra",
+    "system": "02-MateBook-Windows",
+    "folder": "MateBook 14 酷睿 Ultra"
+  },
+  {
+    "name": "HUAWEI MateBook D 14 2024",
+    "system": "02-MateBook-Windows",
+    "folder": "MateBook D 14"
+  },
+  {
+    "name": "HUAWEI MateBook D 16 2024",
+    "system": "02-MateBook-Windows",
+    "folder": "MateBook D 16"
+  },
+  {
+    "name": "HUAWEI MateBook D 16 SE 版 2024",
+    "system": "02-MateBook-Windows",
+    "folder": "MateBook D 16 SE 版"
+  },
+  {
+    "name": "HUAWEI MateBook GT 14",
+    "system": "02-MateBook-Windows",
+    "folder": "MateBook GT 系列"
+  },
+  {
+    "name": "HUAWEI MateBook X Pro 酷睿 Ultra 微绒典藏版",
+    "system": "02-MateBook-Windows",
+    "folder": "MateBook X系列"
+  }
+]

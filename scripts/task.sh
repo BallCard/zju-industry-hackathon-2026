@@ -27,7 +27,7 @@ case "$cmd" in
        if publish "docs(task): $me claims $id"; then echo "已认领 $id"
        else git -C "$root" reset -q --hard origin/main; echo "认领冲突（别人先动了），重新运行 claim"; exit 1; fi ;;
   done) need_me; fresh; setf "$f" status done; publish "docs(task): $id done" && echo "已完成 $id" ;;
-  ls)  need_origin; git -C "$root" fetch -q origin; git -C "$root" ls-tree --name-only origin/main docs/tasks/ | while read -r p; do
+  ls)  need_origin; git -C "$root" fetch -q origin; git -C "$root" ls-tree --name-only origin/main docs/tasks/ | grep -v gitkeep | while read -r p; do
          t="$(git -C "$root" show "origin/main:$p")"
          printf '%-8s %-6s %-8s %s\n' "$(sed -n 's/^id: *//p' <<<"$t")" "$(sed -n 's/^status: *//p' <<<"$t")" "$(sed -n 's/^owner: *//p' <<<"$t")" "$(sed -n 's/^title: *//p' <<<"$t")"
        done ;;

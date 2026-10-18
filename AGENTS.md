@@ -44,5 +44,5 @@ bash scripts/task.sh done T3
 - **事实只来自知识库**：不凭记忆补参数、价格、补贴、库存、销量、奖项、评价；没有依据就删除或写入“待确认”。
 - **图片只来自知识库**且型号必须与文案型号一致，用 `图片索引.csv` 登记的文件。
 - 不照抄 `P6/11-完整软文成稿库` 等案例成稿；可学结构与规则，不可复制。
-- `data/kb/`、`data/ref/`、`vendor/ima-skill/` 不入库。运行测试用 `KB_BACKEND=local`；最终演示/评测用 `KB_BACKEND=ima`。
+- 根目录临时副本 `data/kb/`、`data/ref/`、`vendor/ima-skill/` 不入库；`apps/pc-studio/data/kb/` 是用户明确授权随 PC Studio 发布的例外。运行测试用 `KB_BACKEND=local`；最终演示/评测仍应按要求用 `KB_BACKEND=ima`。
 - Demo/截图/视频前先确认画面里没有密钥与完整 kb_id。

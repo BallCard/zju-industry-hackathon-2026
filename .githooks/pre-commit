@@ -2,12 +2,17 @@
 # 1) 密钥/资料防泄露（始终执行，不可被 LANE_OVERRIDE 跳过）  2) 车道检查
 root="$(git rev-parse --show-toplevel)"
 fail=0
-# 禁止提交的路径：真实凭证文件、举办方知识库副本、第三方 skill 副本
-if git diff --cached --name-only --diff-filter=ACMR | grep -E '(^|/)(\.env($|\.)|data/kb/|data/ref/|vendor/ima-skill/|.*\.(pem|key)$)' | grep -v '\.env\.example$' | grep .; then
-  echo "↑ 这些路径不得提交（密钥/举办方资料/第三方副本）"; fail=1
+# 凭证路径始终禁止；知识库发布例外不能跳过这一检查。
+paths="$(git -c core.quotepath=false diff --cached --name-only --diff-filter=ACMR)"
+if printf '%s\n' "$paths" | grep -E '(^|/)(\.env($|\.)|ima_skill/ima\.txt$|.*\.(pem|key|p12|pfx)$)' | grep -v '\.env\.example$' | grep .; then
+  echo "↑ 这些路径不得提交（真实凭证文件）"; fail=1
+fi
+# 默认临时资料和第三方副本仍不入库；仅放行用户授权的 PC Studio 知识库。
+if printf '%s\n' "$paths" | grep -E '(^|/)(data/kb/|data/ref/|vendor/ima-skill/)' | grep -v '^apps/pc-studio/data/kb/' | grep .; then
+  echo "↑ 这些路径不得提交（默认临时资料/第三方副本）"; fail=1
 fi
 # 新增行里出现疑似 API Key / Client ID 赋值
-if git diff --cached -U0 --no-color | grep -E '^\+' | grep -v '^+++' | grep -iE '(api_?key|client_?id|secret|token)[A-Za-z_]*["'"'"']?[[:space:]]*[=:][[:space:]]*["'"'"']?[A-Za-z0-9_+/=-]{16,}' | grep -v '<'; then
+if git diff --cached -U0 --no-color | grep -E '^\+' | grep -v '^+++' | grep -iE '(api_?key|client_?id|secret|token)[A-Za-z_]*["'"'"']?[[:space:]]*[=:][[:space:]]*["'"'"']?[A-Za-z0-9_+/=-]{16,}' | grep -qv '<'; then
   echo "↑ 疑似写入了凭证。凭证只放环境变量/本地 .env，绝不入库（赛题硬性要求）"; fail=1
 fi
 [ $fail = 1 ] && exit 1
@@ -23,7 +28,7 @@ while IFS= read -r f; do
   if [ -n "$owner" ] && [ "$owner" != "*" ] && [ "$owner" != "$me" ]; then
     echo "越界: $f 属于 $owner（你是 $me）"; bad=1
   fi
-done < <(git diff --cached --name-only --diff-filter=ACMRD)
+done < <(git -c core.quotepath=false diff --cached --name-only --diff-filter=ACMRD)
 if [ $bad = 1 ]; then
   echo "请让对应车道的 agent 改，或在 docs/tasks 里留言；确需越界: LANE_OVERRIDE=1 git commit"
   exit 1

@@ -17,7 +17,7 @@ bash scripts/setup.sh <你的名字>        # 一次：启用 hooks 与 owner
 bash scripts/fetch-ima-skill.sh        # 获取官方 ima skill 到 vendor/（不入库）
 cp .env.example .env                   # 填入你自己的 ima Client ID / API Key 与 LLM key；.env 不入库
 ```
-知识库本地副本放 `data/kb/`（从队内共享获取，不入库、不外传）。
+按用户确认的新发布要求，原 v7 知识库随项目提供，位于 `apps/pc-studio/data/kb/`，包括已获授权的 P4 目录；克隆后可直接用本地模式，无需额外下载知识库或配置 ima 凭证。根目录 `data/kb/` 仅保留为忽略的临时副本路径。API Key、Client ID 等凭证仍不得入库。
 
 ## 安装与运行
 待技术栈确定后补充。**提交前确认仓库内无任何密钥。**
@@ -33,7 +33,7 @@ cd apps/pc-studio
 npm start
 ```
 
-浏览器访问 `http://127.0.0.1:8765`。测试：`npm run check && npm test`。产品型号清单随源码提供，但**不分发主办方知识库文档和图片**；本地模式使用本机 `data/kb/` 或环境变量 `LOCAL_KB_ROOT` 指向已获授权的知识库副本。默认 local 是开发模式，不代表完成真实 ima 检索。上线需通过服务器端环境变量配置 `IMA_OPENAPI_CLIENTID`、`IMA_OPENAPI_APIKEY`，启用 `DEFAULT_DATA_MODE=live` 后以赛事指定知识库做最终验收。服务器绝不向前端返回凭证。
+浏览器访问 `http://127.0.0.1:8765`。测试：`npm run check && npm test`。型号清单、原 v7 知识库文档和图片随源码提供；本地模式默认读取 `apps/pc-studio/data/kb/`，也可通过 `LOCAL_KB_ROOT` 指向其他副本。Docker 同样包含这份知识库，可以离线生成并读取图片，不需要 ima 凭证。默认 local 模式不代表真实 ima 检索；需做正式 live 验收时，再通过服务器端环境变量配置 `IMA_OPENAPI_CLIENTID`、`IMA_OPENAPI_APIKEY`，启用 `DEFAULT_DATA_MODE=live`。服务器绝不向前端返回凭证。
 
 - [应用说明和部署步骤](apps/pc-studio/README.md)
 - [作品说明书](apps/pc-studio/docs/作品说明书.md)

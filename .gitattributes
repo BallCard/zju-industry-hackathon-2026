@@ -5,3 +5,5 @@
 *.jpg binary
 *.pdf binary
 *.zip binary
+# Preserve the authorized read-only snapshot's original bytes/formatting and SHA256 manifest.
+apps/pc-studio/data/kb/** -text -whitespace

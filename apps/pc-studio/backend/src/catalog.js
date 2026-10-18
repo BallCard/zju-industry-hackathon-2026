@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 function findLocalKb() {
-  // Discover non-versioned development data from ancestor folders, including Git worktrees.
+  // Discover the bundled knowledge base or an externally configured development copy, including Git worktrees.
   let base = __dirname;
   while (true) {
     for (const candidate of [path.join(base, 'data', 'kb'), path.join(base, '华为PC全板块深度知识库_v7')]) {

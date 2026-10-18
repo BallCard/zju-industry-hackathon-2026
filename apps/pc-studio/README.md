@@ -34,7 +34,9 @@ apps/pc-studio/
 ├─ backend/
 │  ├─ server.js         # HTTP API 和前端静态资源入口
 │  └─ src/              # Agent、知识库、ima、凭证与模型调用
-├─ data/                # 型号清单；私有知识库不入 Git
+├─ data/                # 型号清单和随项目发布的本地知识库
+│  ├─ models.json
+│  └─ kb/                # 已获授权的本地知识库副本
 ├─ docs/                # 系统提示词和作品文档
 ├─ examples/            # 本地运行案例
 ├─ scripts/             # 示例生成及验收脚本
@@ -61,7 +63,7 @@ apps/pc-studio/
     npm run examples
     npm run smoke:local
 
-本地开发知识库会沿代码所在目录向上查找 `data/kb/` 或「华为PC全板块深度知识库_v7」，兼容主目录与 Git worktree。换电脑时可使用 LOCAL_KB_ROOT 环境变量指定目录。`npm run smoke:local` 需要先启动服务并准备已授权的本地知识库；它只验证本地模式，不调用 ima。
+本地开发知识库优先读取随项目提供的 `data/kb/`，也会沿代码所在目录向上查找外部「华为PC全板块深度知识库_v7」，兼容主目录与 Git worktree。换电脑时可使用 LOCAL_KB_ROOT 环境变量指定其他目录。`npm run smoke:local` 需要先启动服务；它只验证本地模式，不调用 ima。
 
 ## ima官方接口接入
 
@@ -104,4 +106,4 @@ apps/pc-studio/
 
 ## 隐私及版权
 
-源码采用MIT许可；华为产品图片、第三方文献、ima共享库资料不因源码许可自动获得二次分发授权。不把本地v7知识库、P4受控资料或无权发布的图片作为公开GitHub仓库资源。环境文件及密钥须通过.gitignore和平台Secrets管理。
+源码采用MIT许可；知识库、华为产品图片和第三方文献按用户授权随项目提供，不因源码许可自动获得超出授权范围的二次分发权。API Key、Client ID、环境文件和其他凭证仍不得进入 GitHub，须通过 `.gitignore` 和平台 Secrets 管理。

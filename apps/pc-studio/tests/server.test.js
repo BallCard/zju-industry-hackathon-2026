@@ -13,7 +13,7 @@ let server,origin,scratch;
 
 before(async()=>{
   scratch=fs.mkdtempSync(path.join(os.tmpdir(),'pc-studio-http-'));
-  // Exercise a deployment without private data or credentials, from an unrelated cwd.
+  // Exercise an explicitly missing KB and credentials, from an unrelated cwd.
   const overrides={
     LOCAL_KB_ROOT:path.join(scratch,'missing-kb'),
     IMA_CREDENTIALS_FILE:path.join(scratch,'missing-credentials.txt'),
@@ -65,7 +65,7 @@ test('backend serves the frontend page and its existing asset URLs',async()=>{
   }
 });
 
-test('API loads the shared model manifest without private KB or credentials',async()=>{
+test('API loads the model manifest when the configured KB is missing and no credentials exist',async()=>{
   const health=await(await fetch(origin+'/api/health')).json();
   assert.equal(health.ok,true);
   assert.equal(health.defaultMode,'local');
@@ -98,12 +98,12 @@ test('generate and compare APIs preserve follow-up validation',async()=>{
 
 test('static routes cannot expose backend, shared data or private files',async()=>{
   for(const route of ['/backend/server.js','/backend/src/credentials.js','/data/models.json',
-    '/docs/SYSTEM_PROMPT.md','/.env','/public/server.js']){
+    '/docs/SYSTEM_PROMPT.md','/data/kb/README.md','/.env','/public/server.js']){
     const response=await fetch(origin+route);
     assert.equal(response.status,404,route);
     await response.text();
   }
-  for(const target of ['backend/server.js','data/models.json','docs/SYSTEM_PROMPT.md']){
+  for(const target of ['backend/server.js','data/models.json','data/kb/README.md','docs/SYSTEM_PROMPT.md']){
     const response=await fetch(origin+'/public/..%2F'+target.replaceAll('/','%2F'));
     assert.equal(response.status,403,target);
     await response.text();

@@ -5,7 +5,7 @@
 ## 已定事项
 
 - 10-18 · 赛道：华为·产业进阶赛道「AI+华为PC营销软文智能体」· 来自现场发布的题目。
-- 10-18 · 知识库本地副本放 `data/kb/`（gitignore），官方 ima skill 放 `vendor/ima-skill/`（gitignore，`scripts/fetch-ima-skill.sh` 获取）· 举办方资料不得外传。
+- 10-18 · 根目录临时知识库副本放 `data/kb/`（gitignore），官方 ima skill 放 `vendor/ima-skill/`（gitignore，`scripts/fetch-ima-skill.sh` 获取）。经用户明确授权，PC Studio 的发布副本放在 `apps/pc-studio/data/kb/` 并随项目入库；凭证仍不得入库。
 - 10-18 · 凭证只走环境变量/本地 `.env`；pre-commit 拦截疑似密钥与资料目录 · 手册硬红线。
 
 - 已获用户确认：PC Studio 在同一仓库内按 `apps/pc-studio/frontend/` 与 `backend/` 分离前后端目录；暂不引入独立前端构建或拆分仓库。保持单一 Node 服务、统一 package.json 与现有 API/静态资源 URL，开发在独立任务 worktree 中完成。

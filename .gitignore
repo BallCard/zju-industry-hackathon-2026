@@ -23,8 +23,8 @@ nul
 .idea/
 .vscode/
 
-# 比赛知识库本地副本：举办方资料，不得对外传播，不入库
-data/kb/
+# 根目录临时知识库副本默认不入库；PC Studio 的已授权发布副本位于 apps/pc-studio/data/kb/
+/data/kb/
 data/cache/
 data/ref/
 vendor/ima-skill/

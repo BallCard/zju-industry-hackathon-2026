@@ -24,14 +24,14 @@ ima.image(media_id|name) -> {bytes|url, source_title, model, caption}
 所有返回的资料项必须带 `source`（标题 + media_id/路径），供核验与“知识库依据”段使用。
 
 ## 本地开发（无需凭证即可跑通）
-`data/kb/`（gitignore）是举办方知识库的本地副本，结构见 C3。`ima.*` 提供 `LocalKB` 后端读取该目录，与 `ImaKB` 后端同接口；用 `KB_BACKEND=local|ima` 切换。**最终演示与评测必须走 `ima`**（评分要求调用 ima OpenAPI）。
+`apps/pc-studio/data/kb/` 是当前按用户授权随 PC Studio 发布的本地知识库副本，结构见 C3；根目录 `data/kb/` 仍是临时副本并保持 gitignore。`ima.*` 提供本地读取路径，与 `ImaKB` 后端同接口；当前应用用 `local|live` 模式切换。**最终演示与评测仍应走 `ima`**（评分要求调用 ima OpenAPI）。
 
 ## 实测记录（2026-10-18，skill 1.1.10）
 - `search_knowledge_base` 返回项键：`kb_id, kb_name, cover_url, member_count, content_count, description, creator, role_type, base_type`；`code=0` 但库不可见时 `info_list` 为空或只含个人库，**不会报错**——必须校验 `kb_name` 命中目标库，否则报 `KB_NOT_VISIBLE`。
 - Windows 终端中文输出可能乱码，解析用 node/`PYTHONUTF8=1`，别以终端显示判断内容。
 
 ## 共享库实测（2026-10-18，账号已加入，角色=普通成员）
-- 库名「任德耀新建华为PC知识库」，`content_count=1519`，与本地 `data/kb/`（1522 文件）为同一份素材；本地仅用于开发，**演示/评测必须走 ima**。
+- 库名「任德耀新建华为PC知识库」，`content_count=1519`，与本地 `apps/pc-studio/data/kb/`（1522 文件）为同一份素材快照；本地模式可用于开发和离线演示，**正式演示/评测仍应走 ima**。
 - `search_knowledge` 返回项键：`media_id, title, parent_folder_id, highlight_content, media_type`。`media_type`：`7`=md 文档，`5`=csv，`9`=图片，`99`=文件夹。
 - `get_media_info` → `url_info.url + headers`，带 headers 直接 GET 即得原文（实测 md 返回 HTTP 200）。
 - **同名文件很多**：10 个型号各有一份 `产品事实.md`/`卖点与限制.md`/`图片索引.csv`，搜索只给标题。必须用 `parent_folder_id` 调 `get_knowledge_list`，从 `data.current_path` 取路径来判定所属型号，**型号不能靠标题判断**。

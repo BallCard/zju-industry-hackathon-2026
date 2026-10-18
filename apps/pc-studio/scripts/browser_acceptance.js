@@ -54,7 +54,7 @@ async function screenshot(name){
   await command('Runtime.enable');await command('Page.enable');
   await command('Emulation.setDeviceMetricsOverride',{width:1440,height:1050,deviceScaleFactor:1,mobile:false});
   await command('Page.navigate',{url:origin});
-  await waitFor('document.querySelector("#product")?.value && !document.querySelector("#generate").disabled');
+  await waitFor('document.querySelector("#request") && !document.querySelector("#generate").disabled');
   await fill({product:'HUAWEI MateBook 14（鸿蒙版）',audience:'大学新生',platform:'小红书',scene:'开学季',stage:'了解阶段',objective:'引导到店体验',instructions:''});
   await evaluate('document.querySelector("#generate").click()');
   await waitFor('!document.querySelector("#generate").disabled && document.querySelector("#article").innerText.length>100');

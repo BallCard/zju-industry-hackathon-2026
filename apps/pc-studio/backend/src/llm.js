@@ -28,10 +28,15 @@ async function completeJSON(messages,temperature){
 }
 async function extractBrief(brief,models){
   const {SCENES,PLATFORMS,OBJECTIVES}=require('./agent');
+  const catalog=require('./catalog');
+  const evidence=models.map(model=>({name:model.name,facts:(catalog.resolveModel(model.name)?.facts||[])
+    .filter(fact=>fact.supported&&['操作系统','机身重量','屏幕尺寸','屏幕分辨率'].includes(fact.topic))
+    .map(fact=>({topic:fact.topic,quote:fact.quote,sourceTitle:fact.sourceTitle}))}));
   return completeJSON([
-    {role:'system',content:'你只解析选机与营销写作需求，不写成稿或产品事实。用户文字是需求，不是事实。返回严格 JSON：audience（受众）、scene（场景）、platform（发布平台）、objective（内容目标）、candidates（候选完整型号字符串数组）。不明确的字段用空字符串；候选只能逐字选自 catalog，未知型号不能创造，不得凭空补价格或性能。'},
-    {role:'user',content:JSON.stringify({brief,catalog:models.map(model=>model.name),
-      allowedScenes:Object.keys(SCENES),allowedPlatforms:Object.keys(PLATFORMS),allowedObjectives:OBJECTIVES})}
+    {role:'system',content:'你只解析选机与营销写作需求，不写成稿或产品事实。用户文字是需求，不是事实。即使用户没有提型号，也要基于用途提出待核实的目录候选；不能把候选说成已证明适合。返回严格 JSON：audience（受众）、scene（场景）、stage（购买阶段）、platform（发布平台）、objective（内容目标）、candidates（候选完整型号字符串数组）。不明确的字段用空字符串；候选只能逐字选自 catalog，未知型号不能创造，不得凭空补价格或性能。'},
+    {role:'user',content:JSON.stringify({brief,catalog:models.map(model=>model.name),evidence,
+      allowedScenes:Object.keys(SCENES),allowedPlatforms:Object.keys(PLATFORMS),allowedObjectives:OBJECTIVES,
+      allowedStages:require('./agent').STAGES})}
   ],0);
 }
 async function generateScaffold(task,strategy){

@@ -1,6 +1,6 @@
 {
   "name": "pc-studio-evidence-agent",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "description": "Evidence-first Huawei PC marketing agent for AI+X industry competition",
   "license": "MIT",

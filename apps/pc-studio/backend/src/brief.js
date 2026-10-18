@@ -5,14 +5,15 @@ const bounded=value=>typeof value==='string'?value.trim().slice(0,2000):'';
 function briefText(input){return [bounded(input.request),bounded(input.brief)].filter(Boolean).join('；').slice(0,2000);}
 function inferBrief(brief){
   const {SCENES}=require('./agent');
-  const audience=[[/大学新生|大一|准大学/,'大学新生'],[/学生|开学|校园/,'学生群体'],[/设计|摄影|创作|剪辑|视频/,'内容创作者'],
+  const audience=[[/大学新生|大学生|刚入学|大一|准大学/,'大学新生'],[/学生|开学|校园/,'学生群体'],[/设计|摄影|创作|剪辑|视频/,'内容创作者'],
     [/企业|采购|团队/,'企业采购人员'],[/差旅|出差|通勤/,'差旅办公人群'],[/办公|职场|白领|上班/,'办公人群'],
-    [/程序员|开发|工程师/,'软件开发者'],[/家用|家庭|父母|老人/,'家庭用户']].find(([pattern])=>pattern.test(brief))?.[1]||'';
+    [/程序员|开发|工程师/,'软件开发者'],[/家用|家庭|父母|老人/,'家庭用户']].find(([pattern])=>pattern.test(brief))?.[1]||'选购电脑的用户';
   const scene=Object.keys(SCENES).find(name=>brief.includes(name))||
     (audience==='学生群体'||audience==='大学新生'?'开学季':audience==='内容创作者'?'内容创作':audience==='企业采购人员'?'企业采购':audience==='家庭用户'?'家庭换新':audience?'职场办公':'');
   const platform=[[/小红书|xiaohongshu/i,'小红书'],[/公众号|wechat_article/i,'公众号'],[/朋友圈|moments/i,'门店朋友圈'],[/海报|poster/i,'门店海报']].find(([pattern])=>pattern.test(brief))?.[1]||'';
   const objective=[[/到店|看机|体验/,'引导到店体验'],[/收藏|分享/,'鼓励收藏分享'],[/比较|对比|选购|选机|推荐/,'辅助比较'],[/咨询|私信/,'引导咨询']].find(([pattern])=>pattern.test(brief))?.[1]||'';
-  return {audience,scene,platform,objective};
+  const stage=[[/已购|买了|已经买|入手后|买完/,'已购使用'],[/下单|准备买|临门|决定购买/,'临门决策'],[/比较|对比|比选/,'比较阶段']].find(([pattern])=>pattern.test(brief))?.[1]||'';
+  return {audience,scene,platform,objective,stage};
 }
 // Ranking is a needs-to-evidence heuristic, not a claim of performance or suitability.
 function recommendModels(task,brief,suggested=[]){
@@ -41,7 +42,8 @@ function recommendModels(task,brief,suggested=[]){
     }
     const size=/(\d+(?:\.\d+)?)\s*英寸/.exec(facts.find(fact=>fact.topic==='屏幕尺寸')?.quote||'');
     if(/大屏/.test(needs)&&size)score+=Number(size[1])/10;
-    if(preferred.includes(model.name))score+=30-preferred.indexOf(model.name);
+    // Evidence-backed requirements dominate model suggestions; suggestions only break close ties.
+    if(preferred.includes(model.name))score+=(preferred.length-preferred.indexOf(model.name))/10;
     return {index,score,name:model.name,
       reason:selected.length?'按需求中的'+selected.map(fact=>fact.topic).join('、')+'提供资料核对候选；不代表已确认软件兼容、预算或具体销售配置。':'产品目录中的候选；当前没有本地事实可供核对，需获取对应型号资料后确认。',
       highlights:selected.length?selected.map(fact=>'【'+fact.topic+'】'+fact.quote):['目录分类：'+model.system+'（不是配置或性能依据）'],

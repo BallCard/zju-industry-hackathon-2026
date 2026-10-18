@@ -7,6 +7,7 @@ const {URL}=require('node:url');
 const {loadCredentials}=require('./src/credentials');
 try{loadCredentials();}catch(e){console.error('ima凭证配置失败：'+e.message);}
 const {generateTask,SCENES,PLATFORMS,STAGES}=require('./src/agent');
+const llm=require('./src/llm');
 const {safeCatalog,localImageById,KB_ROOT}=require('./src/catalog');
 const {credentialsPresent,connectionStatus,readVerifiedImage}=require('./src/ima');
 // Keep the existing /public/* URLs while serving only the frontend directory.
@@ -50,12 +51,14 @@ function handler(req,res){
   (async()=>{
     const u=new URL(req.url,'http://localhost');
     if(req.method==='GET'&&u.pathname==='/api/health')return json(res,200,{
-      ok:true,version:'1.1.0',localKbAvailable:fs.existsSync(KB_ROOT),
+      ok:true,version:'1.2.0',localKbAvailable:fs.existsSync(KB_ROOT),
       localModelCount:safeCatalog().length,imaConfigured:credentialsPresent(),defaultMode:DEFAULT_DATA_MODE});
     if(req.method==='GET'&&u.pathname==='/api/options')return json(res,200,{
       models:safeCatalog(),scenes:Object.keys(SCENES),platforms:Object.keys(PLATFORMS),stages:STAGES,
       liveConfigured:credentialsPresent(),defaultMode:DEFAULT_DATA_MODE,
       objectives:['引导到店体验','引导咨询','鼓励收藏分享','辅助比较'],
+      inputUnderstanding:{llmConfigured:llm.configured(),method:llm.configured()?'llm':'local',
+        notice:llm.configured()?'已启用大模型需求理解；型号与推荐依据仍由知识库校验。':'未配置大模型，当前使用本地需求解析与知识库推荐。'},
       sourcePolicy:'local用于研发，live仅使用指定ima共享知识库；互不伪装或自动混用'});
     if(req.method==='GET'&&u.pathname==='/api/ima-check')return json(res,200,await connectionStatus());
     if(req.method==='POST'&&u.pathname==='/api/generate')return json(res,200,await generateTask(await body(req)));

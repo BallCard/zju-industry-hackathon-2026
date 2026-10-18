@@ -35,14 +35,18 @@ test('request and brief accept natural language without a model and require conf
     assert.equal(result.task.audience,'大学新生');assert.equal(result.task.scene,'开学季');
     assert.equal(result.task.platform,'小红书');assert.equal(result.task.objective,'鼓励收藏分享');
     assert.match(result.recommendationEngine,/规则推荐/);
+    assert.equal(result.parsedTask.audience,'大学新生');
+    assert.equal(result.inputUnderstanding.method,'local');
+    assert.deepEqual(result.recommendations,result.candidates);
   }
 });
 test('no-model requests with missing context still return legal candidates and follow-up questions',async t=>{
   noLLM(t);
   const result=await generateTask({brief:'请推荐一款电脑，要求卫星通信和免费赠送，价格只要1元'});
   assertCandidates(result);
-  assert.ok(result.questions.some(question=>question.includes('人群')));
-  assert.ok(result.questions.some(question=>question.includes('发布位置')));
+  assert.equal(result.parsedTask.audience,'选购电脑的用户');
+  assert.equal(result.parsedTask.platform,'小红书');
+  assert.equal(result.inputUnderstanding.method,'local');
   assert.doesNotMatch(JSON.stringify(result.candidates),/卫星通信|免费赠送|只要1元/);
   const invalid=await generateTask({request:'推荐电脑',mode:'auto'});assert.equal(invalid.status,'blocked');
 });

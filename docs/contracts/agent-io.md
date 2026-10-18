@@ -8,9 +8,10 @@
 
 - `product` 可为空。无型号或自然语言需求中尚无已确认精确型号时，返回 `status=need_info, needsInput=true, questions, candidates`，先确认再生成；不调用 ima、不生成正文或审计通过结论。
 - 推荐分支的 `candidates` 为对象数组，每项含 `name, reason, highlights, sources`。型号须同时属于实际 catalog 与 `data/models.json`；highlights 只逐字引用本地同型号事实并在 sources 保留来源、限定条件和 `sourceType=local`。无本地知识库时仅显示目录分类和待核实提示，不补参数、价格或性能结论。live 模式的候选参考仍明确来自本地资料，不代表已完成 ima 核验，也不切换请求的数据源。
-- 配置模型时先提取受众、场景、平台、诉求和候选；候选名称必须与 catalog 完整字符串一致。未知或不精确候选丢弃，模型文案不作为产品事实。失败时返回 `recommendationNotice` 并退回确定性排序。显式结构化字段优先，解析后的 `task.product` 保持为空，调用方确认时将候选完整 name 填入 product。
-- 用户明确填写完整型号时保留现有生成与改稿流程；不重新解析 request/brief。未带自然语言需求的旧版型号歧义响应保持字符串数组 `candidates`，兼容现有调用方。
-- 成稿仍要求明确的 `audience`、`platform`；自然语言解析能补全时可用于下一次确认提交。仅有空请求不能因默认值进入生成。所有自由文本只表达需求，不作为产品事实来源。
+- 配置模型时先将用户需求、目录和只读事实摘要交给模型提取受众、场景、平台、购买阶段、诉求和候选；候选名称必须与 catalog 完整字符串一致。未知或不精确候选丢弃，模型文案不作为产品事实。失败时返回 `recommendationNotice` 并退回确定性排序。可核验的系统/便携等需求优先于模型候选次序；预算和软件兼容没有依据时不得作出保证。显式结构化字段优先，解析后的 `task.product` 保持为空，调用方确认时将候选完整 name 填入 product。
+- 用户明确填写完整型号时保留现有生成与改稿流程；带 request/brief 且缺受众/平台时可解析补全。未带自然语言需求的旧版型号歧义响应保持字符串数组 `candidates`，兼容现有调用方。
+- 推荐响应提供 `parsedTask`（不自动选型号）和 `inputUnderstanding={method:"llm"|"local",notice}`，`recommendations` 是候选对象数组的兼容别名。前端回填已解析的非型号字段；用户确认候选后保留 request 和完整 product 重新生成，不需要手动填写全部任务字段。
+- 只有自然语言需求时，未识别的人群使用“选购电脑的用户”，未指定渠道默认小红书并在回填表单中可修改；有明确需求时解析场景、目标和购买阶段。初始表单未动过的默认值不覆盖文本中的场景或平台。空请求仍追问，不会进入成稿。所有自由文本只表达需求，不作为产品事实来源。
 - 缺省 `scene=职场办公`、`stage=了解阶段`、`objective=引导到店体验`、`mode=local`，用户界面显示并允许修改。
 - 平台规范值为 `公众号 | 小红书 | 门店朋友圈 | 门店海报`；兼容 `wechat_article | xiaohongshu | moments | poster` 及显示名“朋友圈”。`scenario/goal` 为 `scene/objective` 的兼容别名。
 - `instructions` 接收补充及改稿要求。`drafting=rules` 强制规则写作；其它情况有模型配置才调用模型。

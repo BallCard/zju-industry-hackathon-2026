@@ -56,8 +56,8 @@ function preflight(input){
   const task=normalizeTask(input),questions=[];
   if(!task.product)questions.push('请选择具体产品型号及版本');
   if(!task.audience||!audienceLabel(task.audience))questions.push('请补充明确的目标人群，例如大学新生、差旅办公人群、创作者或家庭用户');
-  if(!SCENES[task.scene])questions.push('请选择使用场景');
-  if(!PLATFORMS[task.platform])questions.push('请选择发布位置：公众号、小红书、朋友圈或海报');
+  if(!Object.hasOwn(SCENES,task.scene))questions.push('请选择使用场景');
+  if(!Object.hasOwn(PLATFORMS,task.platform))questions.push('请选择发布位置：公众号、小红书、朋友圈或海报');
   if(!STAGES.includes(task.stage))questions.push('请选择了解、比较、临门决策或已购使用阶段');
   if(!task.objective)questions.push('请明确内容目标：到店体验、咨询、收藏分享或辅助比较');
   return questions;
@@ -71,7 +71,7 @@ function audienceLabel(value){
     [/设计|摄影|创作|剪辑|视频|插画|自媒体/,'内容创作者'],[/企业|采购|团队|\bIT\b/i,'企业采购人员'],
     [/差旅|出差|通勤/,'差旅办公人群'],[/职场|办公|白领|上班|员工/,'办公人群'],[/教师|老师/,'教师'],
     [/程序员|开发|工程师/,'软件开发者'],[/家庭|家用|父母|老人|长辈/,'家庭用户'],[/门店|附近|看机|购机|潜在|顾客|消费者|用户|小白/,'选购电脑的用户']];
-  return roles.find(([pattern])=>pattern.test(source))?.[1]||'';
+  return roles.find(([pattern])=>pattern.test(source))?.[1]||(source&&!containsAssertion(source)?'目标读者':'');
 }
 function containsAssertion(value){
   return /这款|这台|本款|该产品|本产品|防水|防尘|支持|搭载|配备|拥有|具备|卫星|保证|实测|续航|售价|补贴|销量|好评|(?:重|薄|内存|屏幕|电池|性能).{0,8}\d|(?:能|可以).{0,8}(?:通信|联网|运行|续航)|\d+(?:\.\d+)?\s*(?:kg|GB|TB|Wh|小时|元|英寸)/i.test(text(value))||detectRisks(value).length>0;
@@ -289,12 +289,14 @@ async function generateTask(input={}){
   let requirements=raw,task=normalizeTask(raw);
   if(!['local','live'].includes(task.mode))return failure('blocked','未知数据源模式，必须明确选择本地资料或ima在线资料');
   const exact=catalog.resolveModel(task.product);
-  const recommending=!task.product||Boolean(brief&&!exact);
-  let parsed={},suggested=[],recommendationEngine='目录与本地知识库规则推荐',recommendationNotice;
-  if(recommending&&brief){
+  const recommending=Boolean(brief)&&!exact;
+  let parsed={},suggested=[],recommendationEngine='目录与本地知识库规则推荐',recommendationNotice,inputUnderstanding;
+  if(brief){
     parsed=briefTools.inferBrief(brief);
     const llm=require('./llm');
-    if(llm.configured()){
+    const needsParsing=recommending||!audienceLabel(raw.audience)||!raw.platform;
+    inputUnderstanding={method:'local',notice:llm.configured()?'已保留确认的需求，并用本地资料校验。':'未配置大模型，当前使用本地需求解析和知识库候选推荐；配置模型后可启用大模型理解。'};
+    if(llm.configured()&&needsParsing){
       try{
         const {data}=await llm.extractBrief(brief,catalog.safeCatalog());
         if(!data||typeof data!=='object'||Array.isArray(data))throw Error('需求解析格式无效');
@@ -303,17 +305,25 @@ async function generateTask(input={}){
         if(Object.keys(SCENES).includes(data.scene))parsed.scene=data.scene;
         const platform=platformAliases[data.platform]||data.platform;
         if(Object.keys(PLATFORMS).includes(platform))parsed.platform=platform;
+        if(STAGES.includes(data.stage))parsed.stage=data.stage;
         if(text(data.objective)&&objectiveKind(data.objective)&&!containsAssertion(data.objective))parsed.objective=objectiveKind(data.objective);
         suggested=Array.isArray(data.candidates)?data.candidates:[];
         recommendationEngine='模型需求解析 + 目录精确校验 + 本地事实核对';
+        inputUnderstanding={method:'llm',notice:'已使用配置的大模型理解需求；推荐依据和型号均由本地知识库校验，仍需确认具体版本。'};
       }catch{
         recommendationNotice={message:'已使用确定性候选推荐',reason:'模型需求解析不可用或格式无效；候选仍仅来自产品目录'};
+        inputUnderstanding={method:'local',notice:'大模型需求解析暂不可用，已改用本地解析与知识库推荐，没有采用未经核实的模型事实。'};
       }
     }
+    const originalInstructions=text(raw.instructions||raw.instruction||raw.extra);
     requirements={...raw,audience:raw.audience||parsed.audience,scene:raw.scene||raw.scenario||parsed.scene,
-      platform:raw.platform||parsed.platform,objective:raw.objective||raw.goal||parsed.objective};
+      stage:raw.stage||parsed.stage,platform:raw.platform||parsed.platform||'小红书',objective:raw.objective||raw.goal||parsed.objective,
+      instructions:raw.previousResult?originalInstructions:originalInstructions.includes(brief)?originalInstructions:[brief,originalInstructions].filter(Boolean).join('；')};
     task=normalizeTask(requirements);
+    task.request=brief;
   }
+  const parsedTask={...task,product:exact?.name||''};
+  const understanding=inputUnderstanding?{inputUnderstanding,parsedTask}:{};
   const questions=preflight(requirements);
   const mentionedScenes=instructionScenes(task.instructions);
   if(mentionedScenes.length>1||mentionedScenes.some(scene=>scene!==task.scene))questions.push('补充要求与所选场景不一致，请确认本次使用场景后重试');
@@ -323,12 +333,12 @@ async function generateTask(input={}){
     const candidates=briefTools.recommendModels(task,brief,[...catalog.modelCandidates(task.product),...suggested]);
     if(task.product)questions.unshift('请确认推荐的具体产品型号及版本；确认前不会生成成稿');
     else questions[0]='请从候选中确认具体产品型号及版本；确认前不会生成成稿';
-    return failure('need_info',null,{questions,candidates,task:{...task,product:''},sourceMode:task.mode,
+    return failure('need_info',null,{questions,candidates,recommendations:candidates,task:{...task,product:''},sourceMode:task.mode,...understanding,
       recommendationEngine,...(recommendationNotice?{recommendationNotice}:{}),
       trace:[{step:'需求理解',status:'需要确认',note:recommendationEngine},
         {step:'型号推荐',status:'等待确认',note:'候选仅按目录与本地资料供核对；尚未调用ima检索，也未生成成稿'}]});
   }
-  if(questions.length)return failure('need_info',null,{questions,trace:[{step:'需求理解',status:'需要补充输入'}]});
+  if(questions.length)return failure('need_info',null,{questions,...understanding,trace:[{step:'需求理解',status:'需要补充输入'}]});
   if(!exact){const candidates=catalog.modelCandidates(task.product);return failure('need_info',null,{questions:[candidates.length?'请确认具体型号与版本，相近型号不能混用资料':'未找到该型号，请从产品列表选择具体版本'],candidates,trace:[{step:'型号确认',status:'需要确认'}]});}
   task.product=exact.name;
   const previous=projectPrevious(raw.previousResult,task),ordinal=ordinalRemoval(task.instructions);
@@ -383,7 +393,7 @@ async function generateTask(input={}){
     task,scene:{audience:task.audience,scene:task.scene,pain:strategy.scene.pain,stage:task.stage,objective:task.objective,platform:task.platform},
     strategy:{explanation:strategy.strategyExplanation,priorities:strategy.priorities,platform:strategy.platform,
       selected:strategy.selected.filter(f=>usedIds.has(f.id)).map(f=>({id:f.id,topic:f.topic,score:f.score,rationale:f.rationale}))},
-    facts:strategy.selected.filter(f=>usedIds.has(f.id)),images,generationEngine:engine,...(generationNotice?{generationNotice}:{}),copy,audit:result,trace,
+    facts:strategy.selected.filter(f=>usedIds.has(f.id)),images,generationEngine:engine,...understanding,...(generationNotice?{generationNotice}:{}),copy,audit:result,trace,
     meta:{durationMs:Date.now()-start,generatedAt:new Date().toISOString(),traceVersion:'2.0'}};
 }
 module.exports={generateTask,normalizeTask,preflight,detectRisks,PLATFORMS,SCENES,STAGES,OBJECTIVES,plan,compose,audit,scaffoldOptions,renderFullText};

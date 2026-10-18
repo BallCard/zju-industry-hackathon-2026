@@ -3,7 +3,7 @@
 const $ = id => document.getElementById(id);
 const state = { options: null, health: null, result: null, versions: [], selectedVersion: null,
   versionCounter: 0, busy: false, stale: false, serviceUnreachable: false, notice: null, toastTimer: null,
-  parsedTask: null };
+  parsedTask: null, explicitFields: new Set() };
 const TASK_FIELDS = ['mode', 'request', 'product', 'audience', 'platform', 'scene', 'stage', 'objective', 'instructions'];
 const PLATFORM_HINTS = {
   小红书: '短段落、场景清单与话题，方便阅读和收藏。',
@@ -130,6 +130,8 @@ function validateTask(task) {
 }
 function setBusy(busy, revision = false) {
   state.busy = busy;
+  for (const key of TASK_FIELDS) $(key).disabled = busy;
+  document.querySelectorAll('[data-preset], [data-audience], [data-candidate]').forEach(button => { button.disabled = busy; });
   $('generate').disabled = busy;
   $('generate-label').textContent = busy ? (revision ? '正在修改…' : '正在生成…') : '生成文案';
   $('working-state').hidden = !busy;
@@ -322,6 +324,12 @@ async function generate(revisionInstruction) {
     return;
   }
   const payload = { ...task };
+  // Untouched form defaults must not override a free-form scene or publishing intent.
+  if (task.request && !task.product && !state.parsedTask) {
+    for (const key of ['scene', 'stage', 'platform', 'objective']) {
+      if (!state.explicitFields.has(key)) delete payload[key];
+    }
+  }
   if (isRevision) {
     if (!revisionInstruction.trim()) { $('revision-input').focus(); return; }
     payload.instructions = revisionInstruction.trim();
@@ -464,6 +472,7 @@ async function init() {
     const [health, options] = await Promise.all([api('/api/health'), api('/api/options')]);
     state.health = health;
     state.options = options;
+    $('input-understanding').textContent = options.inputUnderstanding?.notice || '可直接描述需求，先获取有知识库依据的型号推荐。';
     $('model-list').innerHTML = (options.models || []).map(model => '<option value="' + esc(model.name) + '"></option>').join('');
     for (const [id, values] of [['scene', options.scenes], ['platform', options.platforms], ['stage', options.stages]]) {
       if (!values?.length) continue;
@@ -515,9 +524,22 @@ $('check-ima').addEventListener('click', async () => {
   } catch (error) { $('connection-result').textContent = error.message; }
   finally { $('check-ima').disabled = false; }
 });
-for (const id of ['scene', 'stage', 'objective', 'platform', 'audience']) $(id).addEventListener('input', updateRequirements);
+for (const id of ['scene', 'stage', 'objective', 'platform', 'audience']) $(id).addEventListener('input', () => {
+  state.explicitFields.add(id);
+  updateRequirements();
+});
+$('request').addEventListener('input', () => {
+  state.parsedTask = null;
+  state.explicitFields.clear();
+  $('product').value = '';
+  $('audience').value = '';
+});
 document.querySelectorAll('[data-preset]').forEach(button => button.addEventListener('click', () => {
+  state.parsedTask = null;
+  state.explicitFields.clear();
+  $('product').value = '';
   fillTask(PRESETS[button.dataset.preset], false);
+  for (const key of ['scene', 'stage', 'platform', 'objective']) state.explicitFields.add(key);
   document.querySelectorAll('[data-preset]').forEach(item => {
     item.classList.toggle('is-active', item === button);
     item.setAttribute('aria-pressed', String(item === button));

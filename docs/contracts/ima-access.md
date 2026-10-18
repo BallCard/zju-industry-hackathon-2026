@@ -29,3 +29,12 @@ ima.image(media_id|name) -> {bytes|url, source_title, model, caption}
 ## 实测记录（2026-10-18，skill 1.1.10）
 - `search_knowledge_base` 返回项键：`kb_id, kb_name, cover_url, member_count, content_count, description, creator, role_type, base_type`；`code=0` 但库不可见时 `info_list` 为空或只含个人库，**不会报错**——必须校验 `kb_name` 命中目标库，否则报 `KB_NOT_VISIBLE`。
 - Windows 终端中文输出可能乱码，解析用 node/`PYTHONUTF8=1`，别以终端显示判断内容。
+
+## 共享库实测（2026-10-18，账号已加入，角色=普通成员）
+- 库名「任德耀新建华为PC知识库」，`content_count=1519`，与本地 `data/kb/`（1522 文件）为同一份素材；本地仅用于开发，**演示/评测必须走 ima**。
+- `search_knowledge` 返回项键：`media_id, title, parent_folder_id, highlight_content, media_type`。`media_type`：`7`=md 文档，`5`=csv，`9`=图片，`99`=文件夹。
+- `get_media_info` → `url_info.url + headers`，带 headers 直接 GET 即得原文（实测 md 返回 HTTP 200）。
+- **同名文件很多**：10 个型号各有一份 `产品事实.md`/`卖点与限制.md`/`图片索引.csv`，搜索只给标题。必须用 `parent_folder_id` 调 `get_knowledge_list`，从 `data.current_path` 取路径来判定所属型号，**型号不能靠标题判断**。
+- 目录多套一层：`库名 / 库名 / P1-产品参数库 / 01-鸿蒙电脑 / <型号>`；根下只有一个文件夹，需下钻。`get_knowledge_list` 的 `folder_id` 可直接用文件夹条目的 `media_id` 或 `parent_folder_id`。
+- 图片在 ima 里只有文件名（如 `hwpc_matebook-gt-14_智慧AI空间_07.jpg`），型号归属靠同目录 `图片索引.csv` 的「产品型号」列，核验图片型号时必须读它。
+- 建议：启动时用本地副本（或首次从 ima 拉取后缓存到 `data/cache/`，已 gitignore）建「型号 → folder_id → 文件/图片」索引，避免每次任务反复遍历目录。

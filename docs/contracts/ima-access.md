@@ -8,7 +8,7 @@
 ## 用到的接口
 | 方法 | body | 返回要点 |
 | --- | --- | --- |
-| `search_knowledge_base` | `{query, cursor:"", limit}` | `data.info_list[].id / name`（kb_id） |
+| `search_knowledge_base` | `{query, cursor:"", limit}` | `data.info_list[].kb_id / kb_name`（另有 `content_count,member_count,role_type,base_type`）。**实测字段是 `kb_id`/`kb_name`，不是 `id`/`name`** |
 | `get_knowledge_list` | `{knowledge_base_id, cursor, limit(1-50), folder_id?}` | 条目 `media_id,title`、文件夹 `folder_id,name` |
 | `search_knowledge` | `{query, knowledge_base_id, cursor}` | `info_list[].media_id,title,parent_folder_id,highlight_content` |
 | `get_media_info` | `{media_id}` | `media_type`、`url_info.url/headers`（文件）；`media_type=11` 为笔记 |
@@ -25,3 +25,7 @@ ima.image(media_id|name) -> {bytes|url, source_title, model, caption}
 
 ## 本地开发（无需凭证即可跑通）
 `data/kb/`（gitignore）是举办方知识库的本地副本，结构见 C3。`ima.*` 提供 `LocalKB` 后端读取该目录，与 `ImaKB` 后端同接口；用 `KB_BACKEND=local|ima` 切换。**最终演示与评测必须走 `ima`**（评分要求调用 ima OpenAPI）。
+
+## 实测记录（2026-10-18，skill 1.1.10）
+- `search_knowledge_base` 返回项键：`kb_id, kb_name, cover_url, member_count, content_count, description, creator, role_type, base_type`；`code=0` 但库不可见时 `info_list` 为空或只含个人库，**不会报错**——必须校验 `kb_name` 命中目标库，否则报 `KB_NOT_VISIBLE`。
+- Windows 终端中文输出可能乱码，解析用 node/`PYTHONUTF8=1`，别以终端显示判断内容。

@@ -13,7 +13,7 @@
 ## 现场（初赛 13:00 前）建议做完
 1. 创建 GitHub 私有仓库并邀请队友（需用户授权），推送 `main`。
 2. 每人 clone 后运行 `bash scripts/setup.sh <名字>`。
-3. 发题后：填 `docs/PROBLEM.md` → 定技术栈记入 DECISIONS → 改 `OWNERS` 分车道 → 在 `docs/contracts/` 约定接口 → `task.sh new` 拆任务 → 并行开工。
+3. 发题后：填 `docs/PROBLEM.md` → 定技术栈记入 `docs/PROJECT.md` → 改 `OWNERS` 分车道 → 在 `docs/contracts/` 约定接口 → `task.sh new` 拆任务 → 并行开工。
 4. 技术栈确定后写 `scripts/check.local.sh`（lint/build/test，保持几十秒内）。
 
 ## 推荐车道划分思路

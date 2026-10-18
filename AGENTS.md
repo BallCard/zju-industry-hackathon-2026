@@ -30,9 +30,9 @@ bash scripts/task.sh done T3
 
 ## agent 行为准则
 - 只做认领任务范围内的事；发现范围外问题，写进任务笔记或新建任务，不顺手改。
-- 开始前读 `docs/PROBLEM.md`、`OWNERS`、`docs/contracts/`、`docs/DECISIONS.md`；做完把对队友有用的信息（接口变化、坑、运行方式）写入任务笔记或契约。
+- 开始前读 `docs/PROBLEM.md`、`OWNERS`、`docs/contracts/`、`docs/PROJECT.md`；做完把对队友有用的信息（接口变化、坑、运行方式）写入任务笔记或契约。
 - 不提交密钥和 `.env`；变量名写进 `.env.example`。
-- 产品方向、技术栈等需要共识的事记到 `docs/DECISIONS.md`，不自行拍板。
+- 产品方向、技术栈等需要共识的事记到 `docs/PROJECT.md`，不自行拍板。
 - 每个功能能回答：给谁用、怎么用、解决什么实际问题（评审口径）。
 
 ## 边界

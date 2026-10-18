@@ -9,7 +9,7 @@
 - 题目与要求：[docs/PROBLEM.md](docs/PROBLEM.md) · 评分与自检：[docs/RUBRIC.md](docs/RUBRIC.md)
 - 协作规则（agent 必读）：[AGENTS.md](AGENTS.md) · 机制：[docs/COLLABORATION.md](docs/COLLABORATION.md)
 - 车道：[OWNERS](OWNERS) · 任务：`bash scripts/task.sh ls` · 接口契约：[docs/contracts/](docs/contracts/README.md)
-- 决策：[docs/DECISIONS.md](docs/DECISIONS.md) · 时间线：[docs/TIMELINE.md](docs/TIMELINE.md)
+- 项目记录：[docs/PROJECT.md](docs/PROJECT.md)
 
 ## 环境准备
 ```bash

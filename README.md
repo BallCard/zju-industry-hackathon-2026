@@ -41,10 +41,10 @@ npm start
 
 ```bash
 docker build -t pc-studio .
-docker run --rm -p 7860:7860 --env-file .env -e DEFAULT_DATA_MODE=live pc-studio
+docker run --rm -p 7860:7860 pc-studio
 ```
 
-请先按根目录 `.env.example` 准备 `.env`；Docker 通过 `--env-file` 在运行时注入凭证，构建时不会复制 `.env`。魔搭部署时用平台 Secrets 配置 ima / LLM 凭证，并设置 `DEFAULT_DATA_MODE=live`；不要把应用子目录单独作为构建上下文。镜像不打包本地知识库，未接入 ima 时页面可打开，但不能生成有依据的正式文案。
+镜像包含已授权随项目发布的 `apps/pc-studio/data/kb/`，默认 local 模式无需凭证即可生成开发演示图文；不复制外部私有知识库、密钥或 Git 历史。正式 ima 验收时，按根目录 `.env.example` 准备 `.env`，运行 `docker run --rm -p 7860:7860 --env-file .env -e DEFAULT_DATA_MODE=live pc-studio`，或在魔搭平台 Secrets 中配置凭证并设置 `DEFAULT_DATA_MODE=live`。凭证只在运行时注入，切勿提交；本地演示不替代真实 ima 验收。
 
 - [应用说明和部署步骤](apps/pc-studio/README.md)
 - [作品说明书](apps/pc-studio/docs/作品说明书.md)

@@ -52,10 +52,12 @@ Dockerfile 和 `ms_deploy.json` 位于 GitHub 仓库根目录。请在仓库根�
 
 ```bash
 docker build -t pc-studio .
-docker run --rm -p 7860:7860 --env-file .env -e DEFAULT_DATA_MODE=live pc-studio
+docker run --rm -p 7860:7860 pc-studio
 ```
 
-运行命令从仓库根目录的 `.env` 注入环境变量；请先按根目录 `.env.example` 准备该文件，勿提交实际凭证。Docker 镜像只包含公开运行所需的 PC Studio 代码、型号清单和系统提示词，不包含本地知识库、密钥或 Git 历史。正式部署时请在平台 Secrets 中配置 ima 凭证；如需启用大模型，再配置 `LLM_MODEL`、`LLM_BASE_URL` 和 `LLM_API_KEY`。容器监听 `0.0.0.0:7860`。
+镜像包含 PC Studio 代码、系统提示词、型号清单及已授权随项目发布的 `data/kb/`，默认 local 模式无需密钥即可生成开发演示图文。外部私有知识库、密钥和 Git 历史不进入构建上下文。
+
+正式 ima 验收时，按仓库根目录 `.env.example` 准备 `.env`，执行 `docker run --rm -p 7860:7860 --env-file .env -e DEFAULT_DATA_MODE=live pc-studio`，或在部署平台 Secrets 中配置 ima 凭证并设置 `DEFAULT_DATA_MODE=live`；如需启用大模型，再配置 `LLM_MODEL`、`LLM_BASE_URL` 和 `LLM_API_KEY`。容器监听 `0.0.0.0:7860`。本地演示不替代正式 ima 验收，实际凭证不得提交。
 
 ## 本地运行
 

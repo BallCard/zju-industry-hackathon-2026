@@ -1,5 +1,6 @@
 # Allow only PC Studio runtime files into the repository-root build context.
-# Private knowledge bases, credentials, Git history and worktrees stay out.
+# External private knowledge bases, credentials, Git history and worktrees stay out.
+# The authorized PC Studio knowledge-base copy under apps/pc-studio/data/kb/ is included.
 **
 !Dockerfile
 !apps/
@@ -17,3 +18,5 @@
 !apps/pc-studio/docs/SYSTEM_PROMPT.md
 !apps/pc-studio/data/
 !apps/pc-studio/data/models.json
+!apps/pc-studio/data/kb/
+!apps/pc-studio/data/kb/**

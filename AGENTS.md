@@ -1,26 +1,39 @@
-# 多 Agent 协作规则（比赛期间，规则从简）
+# 多人多 Agent 协作规则
 
-目标：初赛 4 小时内做出可演示的 60% 完成度，之后复赛完善、决赛路演。速度优先，但不互相踩脚。
+场景：几个人各在自己的机器上，各带自己的 agent，通过同一个 GitHub 远端协作。目标是 agent 之间互不干扰：**各走各的车道，用契约对接，只通过 ship.sh 合入 main。**
 
-## 开工前（每个 agent 必做）
-1. 读 `docs/PROBLEM.md`（题目与用户）、`docs/TASKS.md`（任务板）、`docs/DECISIONS.md`（已定决策）。
-2. 在 `docs/TASKS.md` 认领一个任务：写上自己的名字和分支，提交到 main 后再动手（认领即占位）。
-3. 用 `scripts/wt.sh new <name> <task>` 建自己的 worktree，只在其中工作。不在主目录直接改代码。
+## 五条铁律
+1. **一任务一文件**：任务在 `docs/tasks/<id>.md`，认领用 `scripts/task.sh claim`（推送成功才算占到，被拒说明别人先占了）。不改别人已认领的任务。
+2. **一 agent 一 worktree 一分支**：用 `scripts/wt.sh new <task> [agent]`。主检出目录只读，不在里面开发；同一目录不要同时跑两个 agent。
+3. **车道隔离**：`OWNERS` 规定目录归谁。pre-commit hook 会拦截越界提交。需要别人的目录改动，在对方任务文件“进展笔记”留言，不要自己改。
+4. **契约先行**：跨车道接口写进 `docs/contracts/` 并先合入；依赖未完成的部分用契约里的样例数据 mock。
+5. **唯一合入通道**：`scripts/ship.sh`（rebase 到最新 main → 自检 → 快进推送）。不直接推 main，不 force push main，不 `reset --hard` 他人分支。
 
-## 目录所有权（避免冲突）
-- 一个任务尽量只动一个目录；跨目录改动先在 TASKS.md 备注。
-- 公共文件（`package.json`、锁文件、路由表、全局样式、`docs/DECISIONS.md`）改动要小、要快合并，并在提交信息里写明。
-- 目录划分在 `docs/TASKS.md` 顶部的“模块与所有者”表里维护。
+## 开工流程（每个 agent）
+```bash
+bash scripts/setup.sh <owner名>           # 本机一次；owner 与 OWNERS 一致
+git pull --rebase origin main             # 在主目录同步，读 PROBLEM / OWNERS / contracts
+bash scripts/task.sh ls                   # 看谁在做什么
+bash scripts/task.sh claim T3             # 认领；失败就换一个
+bash scripts/wt.sh new T3 [agent]         # 建 worktree，cd 进去
+# 开发：小步提交，type(scope): 摘要
+bash scripts/sync.sh                      # 间歇性 rebase 到最新 main
+bash scripts/ship.sh                      # 合入 main
+bash scripts/task.sh done T3
+```
 
-## Git 约定
-- 分支：`<agent>/<task>`，如 `a1/login-page`。短命，一个任务一个分支。
-- 提交：`type(scope): 摘要`，type 取 feat / fix / docs / chore / refactor / test；小步提交，能跑再提。
-- 合入：先 `git rebase main`，解决冲突并自测，再由集成者运行 `scripts/land.sh <branch>`（只做 fast-forward）。
-- 禁止：force push、`reset --hard` 他人分支、直接在 main 上写功能、提交密钥或 `.env`。
-- main 必须随时可运行、可演示。坏了先 revert，再修。
+## 提交与分支
+- 分支 `<owner>/<task>[-<agent>]`，短命，合入后可保留或删除（删除需用户同意）。
+- 提交信息 `feat|fix|docs|chore|refactor|test(scope): 摘要`。小而频繁，每次 ship 前 main 必须仍可运行。
+- 公共文件（依赖清单、锁文件、路由表、全局样式）改动要小、要快 ship；锁文件冲突时重新生成，不手改。
+- 冲突在自己分支上解决（rebase）。解决不了就 `git rebase --abort`，在任务文件留言求助，不要硬改对方代码。
 
-## 对外与评审口径
-每个功能都要能回答：给谁用、怎么用、解决什么实际问题。写 README / Demo 时按 `docs/PROBLEM.md` 的结构对应，不堆技术名词。
+## agent 行为准则
+- 只做认领任务范围内的事；发现范围外问题，写进任务笔记或新建任务，不顺手改。
+- 开始前读 `docs/PROBLEM.md`、`OWNERS`、`docs/contracts/`、`docs/DECISIONS.md`；做完把对队友有用的信息（接口变化、坑、运行方式）写入任务笔记或契约。
+- 不提交密钥和 `.env`；变量名写进 `.env.example`。
+- 产品方向、技术栈等需要共识的事记到 `docs/DECISIONS.md`，不自行拍板。
+- 每个功能能回答：给谁用、怎么用、解决什么实际问题（评审口径）。
 
 ## 边界
-推送远端、发布、删除分支或目录需用户明确授权。不确定的产品方向写进 `docs/DECISIONS.md` 待定项，而不是各自拍板。
+建远端、推送到远端、删除分支或目录、对 main 做破坏性操作，需用户明确授权。

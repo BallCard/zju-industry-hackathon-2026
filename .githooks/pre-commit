@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# 车道检查：只允许改 OWNERS 里属于自己(或 *)的路径。临时跨车道: LANE_OVERRIDE=1 git commit ...
+[ "${LANE_OVERRIDE:-}" = "1" ] && exit 0
+root="$(git rev-parse --show-toplevel)"
+me="$(git config hack.owner || true)"
+[ -n "$me" ] || { echo "未设置 owner。先运行: bash scripts/setup.sh <name>"; exit 1; }
+bad=0
+while IFS= read -r f; do
+  owner="$(awk -v f="$f" '
+    /^[ \t]*#/ || NF<2 {next}
+    { p=$1; if (index(f,p)==1 && length(p)>=best) {best=length(p); o=$2} }
+    END {print o}' "$root/OWNERS")"
+  if [ -n "$owner" ] && [ "$owner" != "*" ] && [ "$owner" != "$me" ]; then
+    echo "越界: $f 属于 $owner（你是 $me）"; bad=1
+  fi
+done < <(git diff --cached --name-only --diff-filter=ACMRD)
+if [ $bad = 1 ]; then
+  echo "请让对应车道的 agent 改，或在 docs/tasks 里留言；确需越界: LANE_OVERRIDE=1 git commit"
+  exit 1
+fi

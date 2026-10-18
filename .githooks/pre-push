@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# main 只能通过 scripts/ship.sh 更新（它会设置 SHIP=1）；禁止对 main 非快进推送。
+while read -r lref lsha rref rsha; do
+  if [ "$rref" = "refs/heads/main" ]; then
+    [ "${SHIP:-}" = "1" ] || { echo "禁止直接推 main，请用: bash scripts/ship.sh"; exit 1; }
+  fi
+done
+exit 0

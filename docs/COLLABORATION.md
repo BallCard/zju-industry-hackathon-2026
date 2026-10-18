@@ -1,26 +1,20 @@
-# 协作流程速查
+# 协作机制说明（为什么这样设计）
 
-```
-主目录（main，只由集成者合入）
-.worktrees/<agent>-<task>/   每个 agent 一个独立工作目录和分支
-```
+| 风险 | 机制 |
+| --- | --- |
+| 两个 agent 抢同一任务 | `task.sh claim` 把认领写进 main 并推送；Git 拒绝非快进推送，天然原子 |
+| 任务表合并冲突 | 一任务一文件，不用共享表格 |
+| 改到别人的目录 | `OWNERS` + pre-commit 拦截（需 `scripts/setup.sh`；`LANE_OVERRIDE=1` 可临时越界） |
+| 同机多 agent 互相覆盖 | 每个 agent 独立 worktree + 分支 |
+| 接口对不上 | `docs/contracts/` 先约定、带样例，实现方可 mock |
+| main 被推坏/被改写 | pre-push 只放行 `ship.sh`；ship 前强制 rebase + 自检；远端建议开分支保护（禁止 force push） |
+| 多人同时合入 | ship.sh 推送被拒就自动 rebase 重试；冲突则停下报告 |
 
-## 一个任务的完整流程
-```bash
-bash scripts/wt.sh new a1 login-page     # 建 .worktrees/a1-login-page，分支 a1/login-page
-cd .worktrees/a1-login-page              # 在这里开发、小步提交
-git rebase main                          # 合入前同步 main，解决冲突并自测
-cd ../..                                 # 回主目录
-bash scripts/land.sh a1/login-page       # ff-only 合入 main
-bash scripts/wt.sh rm a1 login-page      # 清理 worktree（分支保留，删除需授权）
-```
+## 现场（初赛 13:00 前）建议做完
+1. 创建 GitHub 私有仓库并邀请队友（需用户授权），推送 `main`。
+2. 每人 clone 后运行 `bash scripts/setup.sh <名字>`。
+3. 发题后：填 `docs/PROBLEM.md` → 定技术栈记入 DECISIONS → 改 `OWNERS` 分车道 → 在 `docs/contracts/` 约定接口 → `task.sh new` 拆任务 → 并行开工。
+4. 技术栈确定后写 `scripts/check.local.sh`（lint/build/test，保持几十秒内）。
 
-## 冲突处理
-- 冲突在自己的分支上解决（rebase），不要在 main 上解。
-- 公共文件冲突：保留双方意图，不确定就问对方 agent 或记入 DECISIONS 待定项。
-
-## 为什么用 worktree
-多个 agent 共用一个目录会互相覆盖未提交改动、抢占分支。每人独立目录 + 独立分支，合并时才相遇。
-
-## 远端（如需）
-用户授权后：`gh repo create <name> --private --source . --remote origin`，再 `git push -u origin main`。其余分支按需推送，不 force push。
+## 推荐车道划分思路
+按“能独立运行的一块”切：例如 `src/backend/`、`src/frontend/`、`src/data/`（Demo 数据/模型）、`docs/pitch/`（路演材料）。每人一至两个车道；agent 数量多时按任务而非按目录扩展，车道不重叠即可。

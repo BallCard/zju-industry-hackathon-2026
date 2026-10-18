@@ -1,0 +1,9 @@
+# 目录所有权：<路径前缀> <owner>。最长前缀匹配；owner 为 * 表示任何人可改。
+# owner 名与 `scripts/setup.sh <name>` 设置的一致。题目发布、分工谈定后改这里（单独一个小提交，立刻 ship）。
+# 未匹配的路径放行并提示。
+docs/tasks/      *
+docs/contracts/  *
+docs/            *
+scripts/         *
+.githooks/       *
+src/             *

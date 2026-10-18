@@ -19,6 +19,9 @@ before(async()=>{
     IMA_CREDENTIALS_FILE:path.join(scratch,'missing-credentials.txt'),
     IMA_OPENAPI_CLIENTID:'',
     IMA_OPENAPI_APIKEY:'',
+    LLM_API_KEY:'',
+    OPENAI_API_KEY:'',
+    LLM_MODEL:'',
     DEFAULT_DATA_MODE:'local'
   };
   for(const [key,value] of Object.entries(overrides)){
@@ -95,6 +98,27 @@ test('generate and compare APIs preserve follow-up validation',async()=>{
   assert.equal(comparison.ok,false);
   assert.equal(comparison.first.needsInput,true);
   assert.equal(comparison.second.needsInput,true);
+});
+
+test('generate recommends manifest models over HTTP without KB facts or an explicit product',async()=>{
+  for(const field of ['request','brief']){
+    const response=await fetch(origin+'/api/generate',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({[field]:'大学新生开学季选机推荐，发小红书',product:'',mode:'live'})
+    });
+    assert.equal(response.status,200);
+    const result=await response.json();
+    assert.equal(result.status,'need_info');assert.equal(result.needsInput,true);
+    assert.equal(result.sourceMode,'live');assert.ok(result.questions.length);
+    assert.ok(result.candidates.length);
+    for(const candidate of result.candidates){
+      assert.ok(manifest.some(model=>model.name===candidate.name));
+      assert.match(candidate.reason,/没有本地事实/);
+      assert.deepEqual(candidate.sources,[]);
+      assert.equal(candidate.highlights.length,1);assert.match(candidate.highlights[0],/^目录分类：/);
+    }
+    assert.equal(result.copy,undefined);assert.equal(result.facts,undefined);
+  }
 });
 
 test('static routes cannot expose backend, shared data or private files',async()=>{

@@ -285,15 +285,50 @@ async function verifyPictures(strategy,evidence,trace){
 }
 async function generateTask(input={}){
   const raw=input&&typeof input==='object'&&!Array.isArray(input)?input:{};
-  const task=normalizeTask(raw),start=Date.now();
+  const start=Date.now(),briefTools=require('./brief'),brief=briefTools.briefText(raw);
+  let requirements=raw,task=normalizeTask(raw);
   if(!['local','live'].includes(task.mode))return failure('blocked','未知数据源模式，必须明确选择本地资料或ima在线资料');
-  const questions=preflight(raw);
+  const exact=catalog.resolveModel(task.product);
+  const recommending=!task.product||Boolean(brief&&!exact);
+  let parsed={},suggested=[],recommendationEngine='目录与本地知识库规则推荐',recommendationNotice;
+  if(recommending&&brief){
+    parsed=briefTools.inferBrief(brief);
+    const llm=require('./llm');
+    if(llm.configured()){
+      try{
+        const {data}=await llm.extractBrief(brief,catalog.safeCatalog());
+        if(!data||typeof data!=='object'||Array.isArray(data))throw Error('需求解析格式无效');
+        // Treat every model field as untrusted input; only catalog names and known intent fields survive.
+        if(audienceLabel(data.audience)&&!containsAssertion(data.audience))parsed.audience=text(data.audience,120);
+        if(Object.keys(SCENES).includes(data.scene))parsed.scene=data.scene;
+        const platform=platformAliases[data.platform]||data.platform;
+        if(Object.keys(PLATFORMS).includes(platform))parsed.platform=platform;
+        if(text(data.objective)&&objectiveKind(data.objective)&&!containsAssertion(data.objective))parsed.objective=objectiveKind(data.objective);
+        suggested=Array.isArray(data.candidates)?data.candidates:[];
+        recommendationEngine='模型需求解析 + 目录精确校验 + 本地事实核对';
+      }catch{
+        recommendationNotice={message:'已使用确定性候选推荐',reason:'模型需求解析不可用或格式无效；候选仍仅来自产品目录'};
+      }
+    }
+    requirements={...raw,audience:raw.audience||parsed.audience,scene:raw.scene||raw.scenario||parsed.scene,
+      platform:raw.platform||parsed.platform,objective:raw.objective||raw.goal||parsed.objective};
+    task=normalizeTask(requirements);
+  }
+  const questions=preflight(requirements);
   const mentionedScenes=instructionScenes(task.instructions);
   if(mentionedScenes.length>1||mentionedScenes.some(scene=>scene!==task.scene))questions.push('补充要求与所选场景不一致，请确认本次使用场景后重试');
   if(containsAssertion(raw.audience))questions.push('目标人群中包含产品声明，请只填写受众；产品能力需要知识库依据');
   if(containsAssertion(raw.objective||raw.goal))questions.push('内容目标中包含未经核实的产品声明，请改为到店、咨询、收藏分享或辅助比较');
+  if(recommending){
+    const candidates=briefTools.recommendModels(task,brief,[...catalog.modelCandidates(task.product),...suggested]);
+    if(task.product)questions.unshift('请确认推荐的具体产品型号及版本；确认前不会生成成稿');
+    else questions[0]='请从候选中确认具体产品型号及版本；确认前不会生成成稿';
+    return failure('need_info',null,{questions,candidates,task:{...task,product:''},sourceMode:task.mode,
+      recommendationEngine,...(recommendationNotice?{recommendationNotice}:{}),
+      trace:[{step:'需求理解',status:'需要确认',note:recommendationEngine},
+        {step:'型号推荐',status:'等待确认',note:'候选仅按目录与本地资料供核对；尚未调用ima检索，也未生成成稿'}]});
+  }
   if(questions.length)return failure('need_info',null,{questions,trace:[{step:'需求理解',status:'需要补充输入'}]});
-  const exact=catalog.resolveModel(task.product);
   if(!exact){const candidates=catalog.modelCandidates(task.product);return failure('need_info',null,{questions:[candidates.length?'请确认具体型号与版本，相近型号不能混用资料':'未找到该型号，请从产品列表选择具体版本'],candidates,trace:[{step:'型号确认',status:'需要确认'}]});}
   task.product=exact.name;
   const previous=projectPrevious(raw.previousResult,task),ordinal=ordinalRemoval(task.instructions);

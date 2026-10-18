@@ -1,0 +1,24 @@
+name: pull model
+on: push
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      MODELSCOPE_TOKEN: ${{ secrets.MODELSCOPE_TOKEN }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: install
+        run: pip install modelscope
+
+      - name: login and download
+        run: |
+          python -c "
+          from modelscope import HubApi, snapshot_download
+          api = HubApi()
+          api.login('${{ secrets.ZJUSHAAA }}')
+          model_dir = snapshot_download('your_model_id')
+          print(model_dir)
+          "

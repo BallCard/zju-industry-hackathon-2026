@@ -37,3 +37,12 @@ bash scripts/task.sh done T3
 
 ## 边界
 建远端、推送到远端、删除分支或目录、对 main 做破坏性操作，需用户明确授权。
+
+## 本赛题的硬规则（所有 agent 必读）
+- 题目与最低要求：`docs/PROBLEM.md`；评分与自检：`docs/RUBRIC.md`；接口：`docs/contracts/`（C1 ima 访问、C2 Agent 输入输出、C3 知识库结构）。
+- **凭证零泄露**：不得把 API Key / Client ID / 知识库 ID 写进代码、日志、README、测试夹具、截图、提交信息。只读环境变量。pre-commit 会拦，但别依赖它。
+- **事实只来自知识库**：不凭记忆补参数、价格、补贴、库存、销量、奖项、评价；没有依据就删除或写入“待确认”。
+- **图片只来自知识库**且型号必须与文案型号一致，用 `图片索引.csv` 登记的文件。
+- 不照抄 `P6/11-完整软文成稿库` 等案例成稿；可学结构与规则，不可复制。
+- `data/kb/`、`data/ref/`、`vendor/ima-skill/` 不入库。运行测试用 `KB_BACKEND=local`；最终演示/评测用 `KB_BACKEND=ima`。
+- Demo/截图/视频前先确认画面里没有密钥与完整 kb_id。

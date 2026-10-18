@@ -22,3 +22,9 @@ nul
 *.log
 .idea/
 .vscode/
+
+# 比赛知识库本地副本：举办方资料，不得对外传播，不入库
+data/kb/
+data/cache/
+data/ref/
+vendor/ima-skill/

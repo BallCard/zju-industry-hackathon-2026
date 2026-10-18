@@ -1,9 +1,17 @@
 # 目录所有权：<路径前缀> <owner>。最长前缀匹配；owner 为 * 表示任何人可改。
-# owner 名与 `scripts/setup.sh <name>` 设置的一致。题目发布、分工谈定后改这里（单独一个小提交，立刻 ship）。
-# 未匹配的路径放行并提示。
+# owner 名与 `scripts/setup.sh <name>` 设置的一致。分工谈定后把下面的 TBD 换成真实名字，单独一个小提交，立刻 ship。
+# 未匹配的路径放行。
 docs/tasks/      *
 docs/contracts/  *
 docs/            *
 scripts/         *
 .githooks/       *
+OWNERS           *
+# --- 车道（代码按此切分，先占位，现场商量后改名）---
+src/ima/         TBD-retrieval     # C1 ima 访问层、LocalKB、图片检索
+src/agent/       TBD-agent         # C2 编排、策略、系统提示词、LLM 调用
+src/verify/      TBD-verify        # 事实核验、图片型号核验、合规规则
+src/app/         TBD-app           # UI/API、导出、Demo 体验
+eval/            TBD-verify        # 测试任务集与回归脚本
+submission/      TBD-agent         # 说明书、魔搭页、Demo 脚本
 src/             *

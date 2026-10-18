@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
-# 车道检查：只允许改 OWNERS 里属于自己(或 *)的路径。临时跨车道: LANE_OVERRIDE=1 git commit ...
-[ "${LANE_OVERRIDE:-}" = "1" ] && exit 0
+# 1) 密钥/资料防泄露（始终执行，不可被 LANE_OVERRIDE 跳过）  2) 车道检查
 root="$(git rev-parse --show-toplevel)"
+fail=0
+# 禁止提交的路径：真实凭证文件、举办方知识库副本、第三方 skill 副本
+if git diff --cached --name-only --diff-filter=ACMR | grep -E '(^|/)(\.env($|\.)|data/kb/|data/ref/|vendor/ima-skill/|.*\.(pem|key)$)' | grep -v '\.env\.example$' | grep .; then
+  echo "↑ 这些路径不得提交（密钥/举办方资料/第三方副本）"; fail=1
+fi
+# 新增行里出现疑似 API Key / Client ID 赋值
+if git diff --cached -U0 --no-color | grep -E '^\+' | grep -v '^+++' | grep -iE '(api_?key|client_?id|secret|token)[A-Za-z_]*["'"'"']?[[:space:]]*[=:][[:space:]]*["'"'"']?[A-Za-z0-9_+/=-]{16,}' | grep -v '<'; then
+  echo "↑ 疑似写入了凭证。凭证只放环境变量/本地 .env，绝不入库（赛题硬性要求）"; fail=1
+fi
+[ $fail = 1 ] && exit 1
+[ "${LANE_OVERRIDE:-}" = "1" ] && exit 0
 me="$(git config hack.owner || true)"
 [ -n "$me" ] || { echo "未设置 owner。先运行: bash scripts/setup.sh <name>"; exit 1; }
 bad=0
